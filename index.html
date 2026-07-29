@@ -220,18 +220,6 @@
     width:100%; height:220px; border:0; margin-top:18px;
     filter:grayscale(15%);
   }
-  .weather-embed{
-    margin-top:18px; border:1px solid var(--line);
-    background:var(--stone);
-    padding:6px;
-  }
-  .weather-embed img{
-    width:100%; height:auto; display:block;
-  }
-  .weather-label{
-    font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase;
-    color:var(--ink-soft); margin-top:10px;
-  }
 
   /* RSVP */
   .rsvp-box{
@@ -295,6 +283,103 @@
   }
   .faq-item p{ font-size:0.95rem; color:var(--ink-soft); }
 
+  /* ENVELOPE INTRO */
+  #envelope-overlay{
+    position:fixed; inset:0; z-index:2000;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(192,138,114,0.18), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(168,98,63,0.12), transparent 55%),
+      var(--stone);
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    transition:opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #envelope-overlay.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .envelope-names{
+    font-family:'Cormorant Garamond', serif; font-size:2rem;
+    margin-bottom:8px; color:var(--ink); letter-spacing:0.04em;
+  }
+  .envelope-sub{
+    font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase;
+    color:var(--terracotta); margin-bottom:36px;
+  }
+  .envelope-wrap{ display:flex; flex-direction:column; align-items:center; cursor:pointer; }
+  .envelope{
+    position:relative; width:300px; height:210px;
+    transform:rotate(-3deg);
+    transition:transform 0.35s ease;
+  }
+  .envelope-wrap:hover .envelope{ transform:rotate(-3deg) translateY(-4px); }
+  .env-shadow{
+    position:absolute; left:6%; right:6%; bottom:-20px; height:24px;
+    background:radial-gradient(ellipse at center, rgba(33,31,26,0.16), transparent 70%);
+    z-index:0;
+  }
+  .env-body{
+    position:absolute; inset:0;
+    background:linear-gradient(155deg, #f9d3d8 0%, #f2c3ca 55%, #ecb7c0 100%);
+    box-shadow:0 18px 34px rgba(150,80,90,0.18);
+    z-index:1;
+  }
+  /* side folds, drawn as soft diagonal creases on the envelope body */
+  .env-body::before, .env-body::after{
+    content:''; position:absolute; top:0; width:50%; height:100%;
+    background:linear-gradient(180deg, rgba(150,80,90,0.08), transparent 45%);
+  }
+  .env-body::before{ left:0; clip-path:polygon(0 0, 100% 50%, 0 100%); }
+  .env-body::after{ right:0; clip-path:polygon(100% 0, 0 50%, 100% 100%); }
+  .env-letter{
+    position:absolute; left:9%; right:9%; top:9%; height:78%;
+    background:#fffefc;
+    z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:transform 1s cubic-bezier(.4,0,.2,1), box-shadow 1s ease, opacity 0.3s ease;
+    text-align:center; padding:10px;
+    box-shadow:0 6px 16px rgba(80,50,35,0.14);
+    transform:rotate(-2deg);
+    opacity:0;
+  }
+  .env-letter .letter-sprig{ width:60px; height:auto; margin-bottom:6px; }
+  .env-letter .lm{ font-family:'Cormorant Garamond', serif; font-size:1.25rem; color:var(--terracotta); }
+  .env-letter .ls{ font-family:'Cormorant Garamond', serif; font-size:0.9rem; font-style:italic; color:var(--ink); margin-top:4px; }
+  .env-flap{
+    position:absolute; top:0; left:0; right:0;
+    width:0; height:0; margin:0 auto;
+    border-style:solid; border-width:0 150px 128px 150px;
+    border-color:transparent transparent #f6cad0 transparent;
+    transform-origin:top center; z-index:3;
+    transition:opacity 0.7s ease, transform 0.7s ease;
+    filter:drop-shadow(0 3px 4px rgba(150,80,90,0.14));
+  }
+  .env-flap::after{
+    content:'';
+    position:absolute; top:0; left:-150px;
+    width:0; height:0;
+    border-style:solid; border-width:0 150px 128px 150px;
+    border-color:transparent transparent rgba(150,80,90,0.06) transparent;
+  }
+  .env-seal{
+    position:absolute; top:108px; left:50%; transform:translate(-50%,-50%);
+    width:46px; height:46px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #e8b6bd, #dba0a9 60%, #c98b95 100%);
+    color:var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Cormorant Garamond', serif; font-size:0.92rem; letter-spacing:0.03em; font-weight:500;
+    z-index:4; box-shadow:0 3px 8px rgba(150,80,90,0.25), inset 0 1px 2px rgba(255,255,255,0.5);
+    transition:opacity 0.4s ease, transform 0.4s ease;
+  }
+  .envelope.open .env-flap{ opacity:0; transform:translateY(-18px) rotateZ(-4deg); }
+  .envelope.open .env-seal{ opacity:0; transform:translate(-50%,-50%) scale(0.7); }
+  .envelope.open .env-letter{
+    transform:rotate(-2deg) translateY(-160%);
+    box-shadow:0 14px 30px rgba(0,0,0,0.16);
+    opacity:1;
+    transition-delay:0.15s;
+  }
+  .envelope-hint{
+    margin-top:26px; font-size:0.72rem; letter-spacing:0.24em;
+    text-transform:uppercase; color:var(--ink-soft);
+    transition:opacity 0.4s ease;
+  }
+
   footer{
     text-align:center; padding:60px 24px 50px;
   }
@@ -309,6 +394,36 @@
 </style>
 </head>
 <body>
+
+<div id="envelope-overlay">
+  <div class="envelope-names">Rosalinda &amp; Gerard</div>
+  <div class="envelope-sub">Request the pleasure of your company</div>
+  <div class="envelope-wrap" id="envelope-wrap">
+    <div class="envelope" id="envelope">
+      <div class="env-shadow"></div>
+      <div class="env-body"></div>
+      <div class="env-letter">
+        <svg class="letter-sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.6"/>
+          <g fill="var(--sage)" opacity="0.55">
+            <ellipse cx="35" cy="21" rx="6" ry="2.6" transform="rotate(-35 35 21)"/>
+            <ellipse cx="55" cy="16" rx="6" ry="2.6" transform="rotate(-20 55 16)"/>
+            <ellipse cx="78" cy="12.5" rx="6" ry="2.6" transform="rotate(-8 78 12.5)"/>
+            <ellipse cx="100" cy="11" rx="6" ry="2.6" transform="rotate(0 100 11)"/>
+            <ellipse cx="122" cy="12.5" rx="6" ry="2.6" transform="rotate(8 122 12.5)"/>
+            <ellipse cx="145" cy="16" rx="6" ry="2.6" transform="rotate(20 145 16)"/>
+            <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
+          </g>
+        </svg>
+        <div class="lm">R &amp; G</div>
+        <div class="ls">You're Invited</div>
+      </div>
+      <div class="env-flap"></div>
+      <div class="env-seal">R&amp;G</div>
+    </div>
+    <div class="envelope-hint" id="envelope-hint">Tap to Open</div>
+  </div>
+</div>
 
 <nav>
   <div class="wrap">
@@ -456,20 +571,12 @@
         <p>218 Washington Pl, Hasbrouck Heights, NJ 07604</p>
         <a class="btn-link" href="https://maps.google.com/?q=218+Washington+Pl,+Hasbrouck+Heights,+NJ+07604" target="_blank">Get Directions</a>
         <iframe class="map-embed" loading="lazy" src="https://www.google.com/maps?q=218+Washington+Pl,+Hasbrouck+Heights,+NJ+07604&output=embed"></iframe>
-        <div class="weather-embed">
-          <img src="https://wttr.in/Hasbrouck_Heights,NJ.png?m&lang=en" alt="Current weather in Hasbrouck Heights, NJ" loading="lazy">
-        </div>
-        <div class="weather-label">Current weather in Hasbrouck Heights</div>
       </div>
       <div class="detail-card">
         <h3>Reception at Carro Cafe</h3>
         <p>518 32nd St, Union City, NJ 07087</p>
         <a class="btn-link" href="https://maps.google.com/?q=518+32nd+St,+Union+City,+NJ+07087" target="_blank">Get Directions</a>
         <iframe class="map-embed" loading="lazy" src="https://www.google.com/maps?q=518+32nd+St,+Union+City,+NJ+07087&output=embed"></iframe>
-        <div class="weather-embed">
-          <img src="https://wttr.in/Union_City,NJ.png?m&lang=en" alt="Current weather in Union City, NJ" loading="lazy">
-        </div>
-        <div class="weather-label">Current weather in Union City</div>
       </div>
       <div class="detail-card">
         <h3>Attire</h3>
@@ -551,10 +658,10 @@
     <h2 class="section-title">Registry</h2>
     <div class="section-sub">Your presence is the gift</div>
     <div class="registry-links">
-      <a href="#" target="_blank">Amazon</a>
-      <a href="#" target="_blank">Target</a>
-      <a href="#" target="_blank">Macy's</a>
-      <a href="#" target="_blank">Crate &amp; Barrel</a>
+      <a href="https://www.amazon.com/wedding/" target="_blank">Amazon</a>
+      <a href="https://www.target.com/gift-registry/search-results" target="_blank">Target</a>
+      <a href="https://www.macys.com/registry/wedding" target="_blank">Macy's</a>
+      <a href="https://www.crateandbarrel.com/wedding-gift-registry/" target="_blank">Crate &amp; Barrel</a>
       <a href="#" target="_blank">Honeymoon Fund</a>
     </div>
   </div>
@@ -615,6 +722,24 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  document.documentElement.style.overflow = 'hidden';
+  var overlay = document.getElementById('envelope-overlay');
+  var envelope = document.getElementById('envelope');
+  var hint = document.getElementById('envelope-hint');
+  var wrap = document.getElementById('envelope-wrap');
+  wrap.addEventListener('click', function(){
+    if (envelope.classList.contains('open')) return;
+    envelope.classList.add('open');
+    hint.style.opacity = '0';
+    setTimeout(function(){
+      overlay.classList.add('hide');
+      document.documentElement.style.overflow = '';
+    }, 1250);
+    setTimeout(function(){
+      overlay.style.display = 'none';
+    }, 2100);
+  });
 </script>
 </body>
 </html>

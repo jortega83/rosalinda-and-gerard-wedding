@@ -220,6 +220,18 @@
     width:100%; height:220px; border:0; margin-top:18px;
     filter:grayscale(15%);
   }
+  .weather-embed{
+    margin-top:18px; border:1px solid var(--line);
+    background:var(--stone);
+    padding:6px;
+  }
+  .weather-embed img{
+    width:100%; height:auto; display:block;
+  }
+  .weather-label{
+    font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ink-soft); margin-top:10px;
+  }
 
   /* RSVP */
   .rsvp-box{
@@ -444,12 +456,20 @@
         <p>218 Washington Pl, Hasbrouck Heights, NJ 07604</p>
         <a class="btn-link" href="https://maps.google.com/?q=218+Washington+Pl,+Hasbrouck+Heights,+NJ+07604" target="_blank">Get Directions</a>
         <iframe class="map-embed" loading="lazy" src="https://www.google.com/maps?q=218+Washington+Pl,+Hasbrouck+Heights,+NJ+07604&output=embed"></iframe>
+        <div class="weather-embed">
+          <img src="https://wttr.in/Hasbrouck_Heights,NJ.png?m&lang=en" alt="Current weather in Hasbrouck Heights, NJ" loading="lazy">
+        </div>
+        <div class="weather-label">Current weather in Hasbrouck Heights</div>
       </div>
       <div class="detail-card">
         <h3>Reception at Carro Cafe</h3>
         <p>518 32nd St, Union City, NJ 07087</p>
         <a class="btn-link" href="https://maps.google.com/?q=518+32nd+St,+Union+City,+NJ+07087" target="_blank">Get Directions</a>
         <iframe class="map-embed" loading="lazy" src="https://www.google.com/maps?q=518+32nd+St,+Union+City,+NJ+07087&output=embed"></iframe>
+        <div class="weather-embed">
+          <img src="https://wttr.in/Union_City,NJ.png?m&lang=en" alt="Current weather in Union City, NJ" loading="lazy">
+        </div>
+        <div class="weather-label">Current weather in Union City</div>
       </div>
       <div class="detail-card">
         <h3>Attire</h3>

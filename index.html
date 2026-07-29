@@ -295,16 +295,16 @@
   }
   #envelope-overlay.hide{ opacity:0; visibility:hidden; pointer-events:none; }
   .envelope-names{
-    font-family:'Cormorant Garamond', serif; font-size:2rem;
-    margin-bottom:8px; color:var(--ink); letter-spacing:0.04em;
+    font-family:'Cormorant Garamond', serif; font-size:3rem;
+    margin-bottom:14px; color:var(--ink); letter-spacing:0.04em;
   }
   .envelope-sub{
-    font-size:0.68rem; letter-spacing:0.3em; text-transform:uppercase;
-    color:var(--terracotta); margin-bottom:36px;
+    font-size:0.95rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:#7a3f28; margin-bottom:36px; font-weight:500;
   }
   .envelope-wrap{ display:flex; flex-direction:column; align-items:center; cursor:pointer; }
   .envelope{
-    position:relative; width:300px; height:210px;
+    position:relative; width:580px; height:406px;
     transform:rotate(-3deg);
     transition:transform 0.35s ease;
   }
@@ -337,9 +337,9 @@
     transform:rotate(-2deg);
     opacity:0;
   }
-  .env-letter .letter-sprig{ width:60px; height:auto; margin-bottom:6px; }
-  .env-letter .lm{ font-family:'Cormorant Garamond', serif; font-size:1.25rem; color:var(--terracotta); }
-  .env-letter .ls{ font-family:'Cormorant Garamond', serif; font-size:0.9rem; font-style:italic; color:var(--ink); margin-top:4px; }
+  .env-letter .letter-sprig{ width:110px; height:auto; margin-bottom:14px; }
+  .env-letter .lm{ font-family:'Cormorant Garamond', serif; font-size:2.3rem; color:var(--terracotta); }
+  .env-letter .ls{ font-family:'Cormorant Garamond', serif; font-size:1.6rem; font-style:italic; color:var(--ink); margin-top:8px; }
   .env-flap{
     position:absolute; top:0; left:0; right:0;
     width:0; height:0; margin:0 auto;
@@ -357,12 +357,12 @@
     border-color:transparent transparent rgba(150,80,90,0.06) transparent;
   }
   .env-seal{
-    position:absolute; top:108px; left:50%; transform:translate(-50%,-50%);
-    width:46px; height:46px; border-radius:50%;
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:86px; height:86px; border-radius:50%;
     background:radial-gradient(circle at 35% 30%, #e8b6bd, #dba0a9 60%, #c98b95 100%);
     color:var(--ink);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Cormorant Garamond', serif; font-size:0.92rem; letter-spacing:0.03em; font-weight:500;
+    font-family:'Cormorant Garamond', serif; font-size:1.65rem; letter-spacing:0.03em; font-weight:500;
     z-index:4; box-shadow:0 3px 8px rgba(150,80,90,0.25), inset 0 1px 2px rgba(255,255,255,0.5);
     transition:opacity 0.4s ease, transform 0.4s ease;
   }
@@ -378,6 +378,10 @@
     margin-top:26px; font-size:0.72rem; letter-spacing:0.24em;
     text-transform:uppercase; color:var(--ink-soft);
     transition:opacity 0.4s ease;
+  }
+  @media (max-width:500px){
+    .envelope{ width:90vw; height:63vw; }
+    .envelope-names{ font-size:2.1rem; }
   }
 
   footer{

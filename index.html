@@ -384,6 +384,20 @@
     .envelope-names{ font-size:2.1rem; }
   }
 
+  #music-toggle{
+    position:fixed; bottom:24px; right:24px; z-index:1500;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--paper); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.12);
+    font-size:1.3rem; color:var(--terracotta);
+    opacity:0; pointer-events:none;
+    transition:opacity 0.4s ease, transform 0.2s ease;
+  }
+  #music-toggle.visible{ opacity:1; pointer-events:auto; }
+  #music-toggle:hover{ transform:scale(1.06); }
+  #music-toggle.paused{ color:var(--ink-soft); }
+
   footer{
     text-align:center; padding:60px 24px 50px;
   }
@@ -708,6 +722,11 @@
   <span class="small">October 3, 2026</span>
 </footer>
 
+<audio id="bg-music" loop preload="none">
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+<div id="music-toggle" title="Toggle music">&#9835;</div>
+
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");
   function updateCountdown(){
@@ -731,10 +750,15 @@
   var envelope = document.getElementById('envelope');
   var hint = document.getElementById('envelope-hint');
   var wrap = document.getElementById('envelope-wrap');
+  var music = document.getElementById('bg-music');
+  var musicBtn = document.getElementById('music-toggle');
   wrap.addEventListener('click', function(){
     if (envelope.classList.contains('open')) return;
     envelope.classList.add('open');
     hint.style.opacity = '0';
+    music.volume = 0.5;
+    music.play().catch(function(){});
+    musicBtn.classList.add('visible');
     setTimeout(function(){
       overlay.classList.add('hide');
       document.documentElement.style.overflow = '';
@@ -743,6 +767,16 @@
       overlay.style.display = 'none';
     }, 2100);
   });
+  musicBtn.addEventListener('click', function(){
+    if (music.paused){
+      music.play().catch(function(){});
+      musicBtn.classList.remove('paused');
+    } else {
+      music.pause();
+      musicBtn.classList.add('paused');
+    }
+  });
 </script>
+
 </body>
 </html>

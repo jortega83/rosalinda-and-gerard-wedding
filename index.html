@@ -784,22 +784,25 @@
     music.volume = 0.5;
     music.play().catch(function(){});
     musicBtn.classList.add('visible');
-    // envelope fades out
+    // verse card starts fading in first, so it's already opaque
+    // by the time the envelope overlay finishes fading away
+    setTimeout(function(){
+      verseOverlay.classList.add('visible');
+    }, 900);
+    // envelope fades out on top of the (now opaque) verse layer
     setTimeout(function(){
       overlay.classList.add('hide');
     }, 1250);
     setTimeout(function(){
       overlay.style.display = 'none';
-      // verse card fades in
-      verseOverlay.classList.add('visible');
     }, 2100);
     setTimeout(function(){
       // verse card fades out, revealing the main site
       verseOverlay.classList.remove('visible');
-      document.documentElement.style.overflow = '';
     }, 10100);
     setTimeout(function(){
       verseOverlay.style.display = 'none';
+      document.documentElement.style.overflow = '';
     }, 11100);
   });
   musicBtn.addEventListener('click', function(){

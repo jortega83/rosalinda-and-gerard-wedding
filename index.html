@@ -317,7 +317,7 @@
   }
   #verse-overlay.visible{ opacity:1; visibility:visible; }
   .verse-img{
-    max-width:min(86vw, 420px); max-height:80vh;
+    max-width:96vw; max-height:96vh;
     width:auto; height:auto;
     box-shadow:0 18px 40px rgba(80,50,35,0.2);
     border-radius:2px;
@@ -797,10 +797,10 @@
       // verse card fades out, revealing the main site
       verseOverlay.classList.remove('visible');
       document.documentElement.style.overflow = '';
-    }, 5600);
+    }, 10100);
     setTimeout(function(){
       verseOverlay.style.display = 'none';
-    }, 6600);
+    }, 11100);
   });
   musicBtn.addEventListener('click', function(){
     if (music.paused){

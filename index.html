@@ -399,8 +399,11 @@
   #rosary-decor{
     position:absolute;
     top:0; right:60px;
-    width:220px; height:100%;
-    object-fit:fill;
+    width:180px; height:100%;
+    background-image:url('rosary.png');
+    background-repeat:repeat-y;
+    background-position:top center;
+    background-size:180px auto;
     z-index:1;
     pointer-events:none;
     opacity:0.85;
@@ -408,8 +411,11 @@
   #floral-decor{
     position:absolute;
     top:0; left:60px;
-    width:190px; height:100%;
-    object-fit:fill;
+    width:160px; height:100%;
+    background-image:url('floral-left.png');
+    background-repeat:repeat-y;
+    background-position:top center;
+    background-size:160px auto;
     z-index:1;
     pointer-events:none;
     opacity:0.85;
@@ -696,8 +702,8 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 <div id="music-toggle" title="Toggle music">&#9835;</div>
-<img id="rosary-decor" src="rosary.png" alt="">
-<img id="floral-decor" src="floral-left.png" alt="">
+<div id="rosary-decor"></div>
+<div id="floral-decor"></div>
 
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");

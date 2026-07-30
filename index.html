@@ -34,10 +34,49 @@
   body{
     font-family:'Jost', sans-serif;
     background:var(--stone);
+    background-image:
+      radial-gradient(ellipse at 20% 0%, rgba(192,138,114,0.10) 0%, rgba(192,138,114,0) 55%),
+      radial-gradient(ellipse at 85% 30%, rgba(124,132,103,0.08) 0%, rgba(124,132,103,0) 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(168,98,63,0.08) 0%, rgba(168,98,63,0) 60%);
+    background-size:220% 220%, 220% 220%, 220% 220%;
+    background-position:0% 0%, 100% 0%, 50% 100%;
+    animation:driftGradient 32s ease-in-out infinite;
     color:var(--ink);
     line-height:1.65;
     font-weight:300;
     -webkit-font-smoothing:antialiased;
+    position:relative;
+  }
+
+  @keyframes driftGradient{
+    0%   { background-position:0% 0%, 100% 0%, 50% 100%; }
+    50%  { background-position:20% 15%, 80% 20%, 55% 85%; }
+    100% { background-position:0% 0%, 100% 0%, 50% 100%; }
+  }
+
+  /* subtle paper grain overlay, purely CSS, no image needed */
+  #grain-overlay{
+    position:fixed; inset:0; z-index:9999; pointer-events:none;
+    opacity:0.05; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size:180px 180px;
+  }
+
+  /* falling petals on envelope reveal */
+  #petal-layer{
+    position:fixed; inset:0; z-index:400; pointer-events:none; overflow:hidden;
+    opacity:0; transition:opacity 0.6s ease;
+  }
+  #petal-layer.active{ opacity:1; }
+  .petal{
+    position:absolute; top:-5%;
+    animation-name:petalFall; animation-timing-function:linear; animation-iteration-count:1;
+  }
+  @keyframes petalFall{
+    0%   { transform:translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    8%   { opacity:0.9; }
+    92%  { opacity:0.85; }
+    100% { transform:translateY(110vh) translateX(var(--drift, 40px)) rotate(300deg); opacity:0; }
   }
 
   h1,h2,h3,.script{
@@ -62,11 +101,12 @@
     padding-top:18px; padding-bottom:18px;
     flex-wrap:wrap; gap:10px;
   }
-  nav .names{ font-family:'Cormorant Garamond', serif; font-size:1.4rem; letter-spacing:0.03em; }
+  nav .names{ font-family:'Cormorant Garamond', serif; font-size:1.4rem; letter-spacing:0.05em; }
   nav ul{ list-style:none; display:flex; gap:34px; flex-wrap:wrap; justify-content:center; }
   nav a{
-    text-decoration:none; font-size:1.25rem; letter-spacing:0.04em;
-    font-family:'Cormorant Garamond', serif; font-weight:500;
+    text-decoration:none; font-size:0.78rem; letter-spacing:0.14em;
+    text-transform:uppercase;
+    font-family:'Jost', sans-serif; font-weight:400;
     color:var(--ink-soft);
     transition:color 0.2s ease;
   }
@@ -89,8 +129,8 @@
       radial-gradient(circle at 85% 85%, rgba(168,98,63,0.10), transparent 50%);
   }
   .hero .eyebrow{
-    font-size:1rem; letter-spacing:0.35em; text-transform:uppercase;
-    color:var(--gold); margin-bottom:28px; font-weight:400;
+    font-size:0.78rem; letter-spacing:0.42em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:34px; font-weight:400;
   }
   .hero h1{
     font-family:'Alex Brush', cursive;
@@ -107,9 +147,9 @@
     margin:6px 0;
   }
   .hero .date{
-    margin-top:30px;
-    font-size:1.05rem;
-    letter-spacing:0.18em;
+    margin-top:34px;
+    font-size:0.85rem;
+    letter-spacing:0.28em;
     text-transform:uppercase;
     color:var(--ink-soft);
     font-weight:400;
@@ -158,24 +198,39 @@
     margin-right:auto;
   }
 
-  section{ padding:100px 0; border-bottom:1px solid var(--line); }
+  section{ padding:130px 0; border-bottom:1px solid var(--line); }
+  .reveal{
+    opacity:0; transform:translateY(26px);
+    transition:opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
   section:last-of-type{ border-bottom:none; }
 
   .section-title{
     text-align:center;
-    font-size:clamp(2.1rem, 4vw, 2.9rem);
-    margin-bottom:10px;
+    font-size:clamp(2.1rem, 4vw, 3rem);
+    letter-spacing:0.01em;
+    margin-bottom:14px;
     color:var(--ink);
   }
   .section-sub{
     text-align:center;
-    font-size:0.72rem;
-    letter-spacing:0.32em;
+    font-size:0.7rem;
+    letter-spacing:0.36em;
     text-transform:uppercase;
     color:var(--terracotta);
-    margin-bottom:56px;
+    margin-bottom:20px;
     font-weight:400;
+    position:relative;
   }
+  .section-sub::after{
+    content:'';
+    display:block;
+    width:40px; height:1px;
+    background:var(--line);
+    margin:22px auto 0;
+  }
+  section > .wrap > .section-sub{ margin-bottom:64px; }
 
   /* STORY */
   .story-text{
@@ -314,17 +369,24 @@
       radial-gradient(circle at 20% 20%, rgba(192,138,114,0.18), transparent 55%),
       radial-gradient(circle at 80% 80%, rgba(168,98,63,0.12), transparent 55%),
       var(--stone);
-    display:flex; align-items:center; justify-content:center;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
     opacity:0; visibility:hidden; pointer-events:none;
     transition:opacity 0.9s ease, visibility 0.9s ease;
+    cursor:pointer;
   }
-  #verse-overlay.visible{ opacity:1; visibility:visible; }
+  #verse-overlay.visible{ opacity:1; visibility:visible; pointer-events:auto; }
   .verse-img{
-    max-width:96vw; max-height:96vh;
+    max-width:90vw; max-height:80vh;
     width:auto; height:auto;
     box-shadow:0 18px 40px rgba(80,50,35,0.2);
     border-radius:2px;
   }
+  .verse-hint{
+    margin-top:28px; font-size:0.72rem; letter-spacing:0.24em;
+    text-transform:uppercase; color:var(--ink-soft);
+    opacity:0; transition:opacity 0.6s ease;
+  }
+  .verse-hint.show{ opacity:1; }
 
   .envelope-names{
     font-family:'Alex Brush', cursive; font-size:3.6rem; font-weight:400;
@@ -460,6 +522,9 @@
 </head>
 <body>
 
+<div id="grain-overlay"></div>
+<div id="petal-layer"></div>
+
 <div id="envelope-overlay">
   <div class="envelope-names">Rosalinda &amp; Gerard</div>
   <div class="envelope-sub">Request the pleasure of your company</div>
@@ -491,6 +556,7 @@
 
 <div id="verse-overlay">
   <img class="verse-img" src="verse.jpg" alt="Matthew 19:6 wedding verse">
+  <div class="verse-hint" id="verse-hint">Tap to Continue</div>
 </div>
 
 <nav>
@@ -502,6 +568,7 @@
       <li><a href="#rsvp">RSVP</a></li>
       <li><a href="#guestbook">Guestbook</a></li>
       <li><a href="#registry">Registry</a></li>
+      <li><a href="#games">Games</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
   </div>
@@ -522,7 +589,7 @@
 </header>
 
 <section id="schedule">
-  <div class="wrap">
+  <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
       <g fill="var(--sage)" opacity="0.45">
@@ -551,7 +618,7 @@
 </section>
 
 <section id="details">
-  <div class="wrap">
+  <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
       <g fill="var(--sage)" opacity="0.45">
@@ -596,7 +663,7 @@
 </section>
 
 <section id="rsvp">
-  <div class="wrap">
+  <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
       <g fill="var(--sage)" opacity="0.45">
@@ -620,7 +687,7 @@
 
 
 <section id="guestbook">
-  <div class="wrap">
+  <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
       <g fill="var(--sage)" opacity="0.45">
@@ -643,7 +710,7 @@
 </section>
 
 <section id="registry">
-  <div class="wrap">
+  <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
       <g fill="var(--sage)" opacity="0.45">
@@ -668,8 +735,31 @@
   </div>
 </section>
 
+<section id="games">
+  <div class="wrap reveal">
+    <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
+      <g fill="var(--sage)" opacity="0.45">
+        <ellipse cx="35" cy="21" rx="6" ry="2.6" transform="rotate(-35 35 21)"/>
+        <ellipse cx="55" cy="16" rx="6" ry="2.6" transform="rotate(-20 55 16)"/>
+        <ellipse cx="78" cy="12.5" rx="6" ry="2.6" transform="rotate(-8 78 12.5)"/>
+        <ellipse cx="100" cy="11" rx="6" ry="2.6" transform="rotate(0 100 11)"/>
+        <ellipse cx="122" cy="12.5" rx="6" ry="2.6" transform="rotate(8 122 12.5)"/>
+        <ellipse cx="145" cy="16" rx="6" ry="2.6" transform="rotate(20 145 16)"/>
+        <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
+      </g>
+    </svg>
+    <h2 class="section-title">Games</h2>
+    <div class="section-sub">Join the fun at the reception</div>
+    <div class="rsvp-box">
+      <p>After dinner, stick around for a live trivia game, play solo or team up with the table next to you. Register below so we can get you set up on game night.</p>
+      <a class="rsvp-btn" href="#" target="_blank">Register to Play</a>
+    </div>
+  </div>
+</section>
+
 <section id="faq">
-  <div class="wrap">
+  <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
       <g fill="var(--sage)" opacity="0.45">
@@ -738,15 +828,61 @@
   document.documentElement.style.overflow = 'hidden';
   var overlay = document.getElementById('envelope-overlay');
   var verseOverlay = document.getElementById('verse-overlay');
+  var verseHint = document.getElementById('verse-hint');
   var envelope = document.getElementById('envelope');
   var hint = document.getElementById('envelope-hint');
   var wrap = document.getElementById('envelope-wrap');
   var music = document.getElementById('bg-music');
   var musicBtn = document.getElementById('music-toggle');
+  var revealTimer, hintTimer;
+
+  function revealSite(){
+    clearTimeout(revealTimer);
+    clearTimeout(hintTimer);
+    verseOverlay.classList.remove('visible');
+    document.documentElement.style.overflow = '';
+    setTimeout(function(){
+      verseOverlay.style.display = 'none';
+    }, 900);
+  }
+
+  function spawnPetals(){
+    var layer = document.getElementById('petal-layer');
+    if (!layer) return;
+    var colors = ['#c08a72', '#a8623f', '#7c8467', '#5a1c34'];
+    var count = 26;
+    for (var i = 0; i < count; i++){
+      (function(i){
+        var petal = document.createElement('div');
+        petal.className = 'petal';
+        var size = 8 + Math.random() * 8;
+        var left = Math.random() * 100;
+        var duration = 6 + Math.random() * 5;
+        var delay = Math.random() * 4;
+        var drift = (Math.random() * 120 - 60) + 'px';
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        petal.style.left = left + 'vw';
+        petal.style.width = size + 'px';
+        petal.style.height = (size * 1.3) + 'px';
+        petal.style.background = color;
+        petal.style.opacity = '0.85';
+        petal.style.borderRadius = '60% 5% 60% 5%';
+        petal.style.setProperty('--drift', drift);
+        petal.style.animationDuration = duration + 's';
+        petal.style.animationDelay = delay + 's';
+        layer.appendChild(petal);
+        setTimeout(function(){ petal.remove(); }, (duration + delay) * 1000 + 500);
+      })(i);
+    }
+  }
+
   wrap.addEventListener('click', function(){
     if (envelope.classList.contains('open')) return;
     envelope.classList.add('open');
     hint.style.opacity = '0';
+    // gentle falling petals to mark the moment the envelope opens
+    document.getElementById('petal-layer').classList.add('active');
+    spawnPetals();
     // music disabled for now while testing -- to re-enable, uncomment the two lines below
     // music.volume = 0.5;
     // music.play().catch(function(){});
@@ -755,22 +891,23 @@
     // by the time the envelope overlay finishes fading away
     setTimeout(function(){
       verseOverlay.classList.add('visible');
-    }, 900);
+    }, 1100);
     // envelope fades out on top of the (now opaque) verse layer
     setTimeout(function(){
       overlay.classList.add('hide');
-    }, 1250);
+    }, 1500);
     setTimeout(function(){
       overlay.style.display = 'none';
-    }, 2100);
-    setTimeout(function(){
-      // verse card fades out, revealing the main site
-      verseOverlay.classList.remove('visible');
-      document.documentElement.style.overflow = '';
-    }, 10100);
-    setTimeout(function(){
-      verseOverlay.style.display = 'none';
-    }, 11100);
+    }, 2400);
+    // let guests tap to move on early, so it never feels stuck
+    hintTimer = setTimeout(function(){
+      verseHint.classList.add('show');
+    }, 3200);
+    // otherwise auto-advance after a comfortable reading pause
+    revealTimer = setTimeout(revealSite, 10500);
+  });
+  verseOverlay.addEventListener('click', function(){
+    if (verseOverlay.classList.contains('visible')) revealSite();
   });
   musicBtn.addEventListener('click', function(){
     if (music.paused){
@@ -794,6 +931,24 @@
   syncDecorHeight();
   window.addEventListener('resize', syncDecorHeight);
   window.addEventListener('load', syncDecorHeight);
+
+  // gently reveal each section as it scrolls into view
+  if ('IntersectionObserver' in window){
+    var revealItems = document.querySelectorAll('.reveal');
+    var revealObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealItems.forEach(function(el){ revealObserver.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){
+      el.classList.add('in-view');
+    });
+  }
 </script>
 
 </body>

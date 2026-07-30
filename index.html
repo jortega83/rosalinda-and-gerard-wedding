@@ -477,24 +477,6 @@
   #music-toggle:hover{ transform:scale(1.06); }
   #music-toggle.paused{ color:var(--ink-soft); }
 
-  .decor-band{
-    position:absolute;
-    left:0; width:100%; height:100px;
-    background-image:url('decor-tile.png');
-    background-repeat:repeat-x;
-    background-position:left center;
-    background-size:auto 100px;
-    z-index:1;
-    pointer-events:none;
-    opacity:0.85;
-  }
-  #decor-top{ top:90px; }
-  #decor-bottom{ top:0; }
-  @media (max-width:700px){
-    .decor-band{ height:48px; background-size:auto 48px; opacity:0.7; }
-    #decor-top{ top:175px; }
-  }
-
   footer{
     text-align:center; padding:60px 24px 40px;
   }
@@ -804,9 +786,6 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 <div id="music-toggle" title="Toggle music">&#9835;</div>
-<div id="decor-top" class="decor-band"></div>
-<div id="decor-bottom" class="decor-band"></div>
-
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");
   function updateCountdown(){
@@ -849,20 +828,24 @@
   function spawnPetal(){
     var layer = document.getElementById('petal-layer');
     if (!layer) return;
-    var colors = ['#c08a72', '#a8623f', '#7c8467', '#5a1c34'];
+    // soft off-white magnolia tones, with a faint blush shadow edge
+    var colors = ['#fffaf7', '#fdf6ee', '#f7ece1', '#fbf1e6'];
     var petal = document.createElement('div');
     petal.className = 'petal';
-    var size = 8 + Math.random() * 8;
+    var size = 10 + Math.random() * 9;
     var left = Math.random() * 100;
     var duration = 7 + Math.random() * 6;
     var drift = (Math.random() * 120 - 60) + 'px';
     var color = colors[Math.floor(Math.random() * colors.length)];
+    var rotateStart = Math.floor(Math.random() * 40 - 20);
     petal.style.left = left + 'vw';
     petal.style.width = size + 'px';
-    petal.style.height = (size * 1.3) + 'px';
+    petal.style.height = (size * 1.15) + 'px';
     petal.style.background = color;
-    petal.style.opacity = '0.85';
-    petal.style.borderRadius = '60% 5% 60% 5%';
+    petal.style.boxShadow = 'inset -2px -2px 4px rgba(168,98,63,0.12), 0 1px 3px rgba(90,28,52,0.08)';
+    petal.style.opacity = '0.92';
+    petal.style.borderRadius = '0% 60% 0% 60%';
+    petal.style.transform = 'rotate(' + rotateStart + 'deg)';
     petal.style.setProperty('--drift', drift);
     petal.style.animationDuration = duration + 's';
     layer.appendChild(petal);
@@ -921,19 +904,6 @@
       musicBtn.classList.add('paused');
     }
   });
-
-  // position the bottom decorative band at the true end of the page
-  function syncDecorHeight(){
-    var bottom = document.getElementById('decor-bottom');
-    if (bottom){
-      var docHeight = document.documentElement.scrollHeight;
-      var bandHeight = bottom.offsetHeight || 100;
-      bottom.style.top = (docHeight - bandHeight) + 'px';
-    }
-  }
-  syncDecorHeight();
-  window.addEventListener('resize', syncDecorHeight);
-  window.addEventListener('load', syncDecorHeight);
 
   // gently reveal each section as it scrolls into view
   if ('IntersectionObserver' in window){

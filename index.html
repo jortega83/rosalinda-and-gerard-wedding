@@ -69,14 +69,27 @@
   }
   #petal-layer.active{ opacity:1; }
   .petal{
-    position:absolute; top:-5%;
-    animation-name:petalFall; animation-timing-function:linear; animation-iteration-count:1;
+    position:absolute; top:-8%;
+    animation-name:petalFall; animation-timing-function:ease-in-out; animation-iteration-count:1;
+  }
+  .petal svg{ display:block; width:100%; height:100%; }
+  .petal-spin{
+    display:block; width:100%; height:100%;
+    animation-name:petalSpin; animation-timing-function:ease-in-out; animation-iteration-count:infinite;
   }
   @keyframes petalFall{
-    0%   { transform:translateY(0) translateX(0) rotate(0deg); opacity:0; }
-    8%   { opacity:0.9; }
-    92%  { opacity:0.85; }
-    100% { transform:translateY(110vh) translateX(var(--drift, 40px)) rotate(300deg); opacity:0; }
+    0%   { transform:translateY(0) translateX(0); opacity:0; }
+    6%   { opacity:0.95; }
+    25%  { transform:translateY(28vh) translateX(var(--sway1, 30px)); }
+    50%  { transform:translateY(55vh) translateX(var(--sway2, -30px)); }
+    75%  { transform:translateY(82vh) translateX(var(--sway1, 30px)); }
+    92%  { opacity:0.9; }
+    100% { transform:translateY(112vh) translateX(var(--sway2, -20px)); opacity:0; }
+  }
+  @keyframes petalSpin{
+    0%   { transform:rotate3d(0.4, 1, 0.2, 0deg); }
+    50%  { transform:rotate3d(0.4, 1, 0.2, 190deg); }
+    100% { transform:rotate3d(0.4, 1, 0.2, 360deg); }
   }
 
   h1,h2,h3,.script{
@@ -828,26 +841,33 @@
   function spawnPetal(){
     var layer = document.getElementById('petal-layer');
     if (!layer) return;
-    // soft off-white magnolia tones, with a faint blush shadow edge
-    var colors = ['#fffaf7', '#fdf6ee', '#f7ece1', '#fbf1e6'];
+    // soft off-white magnolia tones, with a faint blush shading at the base
+    var colors = ['#fffaf7', '#fdf6ee', '#f9efe4', '#fbf1e6'];
     var petal = document.createElement('div');
     petal.className = 'petal';
-    var size = 10 + Math.random() * 9;
+    var size = 16 + Math.random() * 12;
     var left = Math.random() * 100;
-    var duration = 7 + Math.random() * 6;
-    var drift = (Math.random() * 120 - 60) + 'px';
+    var duration = 8 + Math.random() * 6;
+    var sway1 = (30 + Math.random() * 40) + 'px';
+    var sway2 = -(30 + Math.random() * 40) + 'px';
+    var spinDuration = 3 + Math.random() * 3;
     var color = colors[Math.floor(Math.random() * colors.length)];
-    var rotateStart = Math.floor(Math.random() * 40 - 20);
     petal.style.left = left + 'vw';
     petal.style.width = size + 'px';
-    petal.style.height = (size * 1.15) + 'px';
-    petal.style.background = color;
-    petal.style.boxShadow = 'inset -2px -2px 4px rgba(168,98,63,0.12), 0 1px 3px rgba(90,28,52,0.08)';
-    petal.style.opacity = '0.92';
-    petal.style.borderRadius = '0% 60% 0% 60%';
-    petal.style.transform = 'rotate(' + rotateStart + 'deg)';
-    petal.style.setProperty('--drift', drift);
+    petal.style.height = (size * 1.2) + 'px';
+    petal.style.setProperty('--sway1', sway1);
+    petal.style.setProperty('--sway2', sway2);
     petal.style.animationDuration = duration + 's';
+    // an actual petal silhouette: a curved teardrop shape with a soft center vein,
+    // rather than a plain rounded rectangle
+    petal.innerHTML =
+      '<div class="petal-spin" style="animation-duration:' + spinDuration + 's">' +
+      '<svg viewBox="0 0 40 52" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M20 2 C34 12, 36 34, 20 50 C4 34, 6 12, 20 2 Z" ' +
+      'fill="' + color + '" stroke="rgba(168,98,63,0.18)" stroke-width="0.6"/>' +
+      '<path d="M20 6 C20 20, 20 36, 20 47" stroke="rgba(168,98,63,0.15)" ' +
+      'stroke-width="0.7" fill="none"/>' +
+      '</svg></div>';
     layer.appendChild(petal);
     setTimeout(function(){ petal.remove(); }, duration * 1000 + 500);
   }

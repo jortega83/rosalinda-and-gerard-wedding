@@ -747,8 +747,9 @@
     if (envelope.classList.contains('open')) return;
     envelope.classList.add('open');
     hint.style.opacity = '0';
-    music.volume = 0.5;
-    music.play().catch(function(){});
+    // music disabled for now while testing -- to re-enable, uncomment the two lines below
+    // music.volume = 0.5;
+    // music.play().catch(function(){});
     musicBtn.classList.add('visible');
     // verse card starts fading in first, so it's already opaque
     // by the time the envelope overlay finishes fading away

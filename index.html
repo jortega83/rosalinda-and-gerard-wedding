@@ -396,33 +396,21 @@
   #music-toggle:hover{ transform:scale(1.06); }
   #music-toggle.paused{ color:var(--ink-soft); }
 
-  #rosary-decor{
+  .decor-band{
     position:absolute;
-    top:0; right:60px;
-    width:180px; height:100%;
-    background-image:url('rosary.png');
-    background-repeat:repeat-y;
-    background-position:top center;
-    background-size:180px auto;
+    left:0; width:100%; height:100px;
+    background-image:url('decor-tile.png');
+    background-repeat:repeat-x;
+    background-position:left center;
+    background-size:auto 100px;
     z-index:1;
     pointer-events:none;
     opacity:0.85;
   }
-  #floral-decor{
-    position:absolute;
-    top:0; left:60px;
-    width:160px; height:100%;
-    background-image:url('floral-left.png');
-    background-repeat:repeat-y;
-    background-position:top center;
-    background-size:160px auto;
-    z-index:1;
-    pointer-events:none;
-    opacity:0.85;
-  }
-  @media (max-width:1100px){
-    #rosary-decor{ display:none; }
-    #floral-decor{ display:none; }
+  #decor-top{ top:0; }
+  #decor-bottom{ top:0; }
+  @media (max-width:700px){
+    .decor-band{ display:none; }
   }
 
   footer{
@@ -702,8 +690,8 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 <div id="music-toggle" title="Toggle music">&#9835;</div>
-<div id="rosary-decor"></div>
-<div id="floral-decor"></div>
+<div id="decor-top" class="decor-band"></div>
+<div id="decor-bottom" class="decor-band"></div>
 
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");
@@ -755,13 +743,14 @@
     }
   });
 
-  // stretch the side decorations to match the full scrollable page height
+  // position the bottom decorative band at the true end of the page
   function syncDecorHeight(){
-    var h = document.documentElement.scrollHeight + 'px';
-    var rosary = document.getElementById('rosary-decor');
-    var floral = document.getElementById('floral-decor');
-    if (rosary) rosary.style.height = h;
-    if (floral) floral.style.height = h;
+    var bottom = document.getElementById('decor-bottom');
+    if (bottom){
+      var docHeight = document.documentElement.scrollHeight;
+      var bandHeight = bottom.offsetHeight || 100;
+      bottom.style.top = (docHeight - bandHeight) + 'px';
+    }
   }
   syncDecorHeight();
   window.addEventListener('resize', syncDecorHeight);

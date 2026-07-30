@@ -578,7 +578,7 @@
     <div><span class="num" id="cd-mins">--</span><span class="lbl">Minutes</span></div>
     <div><span class="num" id="cd-secs">--</span><span class="lbl">Seconds</span></div>
   </div>
-  <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Rosalinda+%26+Gerard%27s+Wedding&dates=20261003T173000Z/20261004T030000Z&details=Ceremony+at+Corpus+Christi+Roman+Catholic+Church%2C+218+Washington+Pl%2C+Hasbrouck+Heights%2C+NJ.+Reception+at+Carro+Cafe%2C+518+32nd+St%2C+Union+City%2C+NJ.&location=218+Washington+Pl%2C+Hasbrouck+Heights%2C+NJ+07604" target="_blank">Add to Calendar</a>
+  <a class="cal-btn" href="#" id="add-to-calendar">Add to Calendar</a>
   <img class="dove-icon" src="dove.png" alt="Dove holding an olive branch, a symbol of peace and love">
 </header>
 
@@ -815,6 +815,37 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // universal "Add to Calendar" - builds a real .ics file so it opens in the
+  // native Calendar app on iPhone, and in Google Calendar (or default) on Android
+  document.getElementById('add-to-calendar').addEventListener('click', function(e){
+    e.preventDefault();
+    var icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Rosalinda and Gerard Wedding//EN',
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:rosalinda-gerard-wedding-2026@rosalindaandgerard.com',
+      'DTSTAMP:20260101T000000Z',
+      'DTSTART:20261003T173000Z',
+      'DTEND:20261004T030000Z',
+      'SUMMARY:Rosalinda & Gerard\'s Wedding',
+      'DESCRIPTION:Ceremony at Corpus Christi Roman Catholic Church\\, 218 Washington Pl\\, Hasbrouck Heights\\, NJ. Reception at Carro Cafe\\, 518 32nd St\\, Union City\\, NJ.',
+      'LOCATION:218 Washington Pl\\, Hasbrouck Heights\\, NJ 07604',
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+    var blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'rosalinda-and-gerard-wedding.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
 
   document.documentElement.style.overflow = 'hidden';
   var overlay = document.getElementById('envelope-overlay');

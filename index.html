@@ -19,14 +19,13 @@
     --sage-deep: #4f5540;
     --terracotta: #a8623f;
     --gold: #c08a72;
-    --stone: #f4e5dd;
+    --stone: #f6ecd3;
     --paper: #fffaf7;
     --ink: #211f1a;
     --ink-soft: #5c584c;
     --line: #e3cec3;
     --wine: #5a1c34;
     --wine-dark: #3d1224;
-    --lace: #f3ead9;
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
@@ -94,9 +93,10 @@
     color:var(--gold); margin-bottom:28px; font-weight:400;
   }
   .hero h1{
-    font-size:clamp(3.2rem, 10vw, 6.5rem);
-    line-height:1;
-    font-weight:500;
+    font-family:'Alex Brush', cursive;
+    font-size:clamp(3.6rem, 12vw, 7.5rem);
+    line-height:1.05;
+    font-weight:400;
     color:var(--ink);
   }
   .hero .amp{
@@ -148,14 +148,6 @@
     width:190px;
     margin-top:34px;
     margin-bottom:0;
-  }
-  .hero .dove-icon{
-    width:190px;
-    height:auto;
-    margin-top:38px;
-    display:block;
-    margin-left:auto;
-    margin-right:auto;
   }
 
   section{ padding:100px 0; border-bottom:1px solid var(--line); }
@@ -308,47 +300,78 @@
   }
   #envelope-overlay.hide{ opacity:0; visibility:hidden; pointer-events:none; }
 
-  #verse-overlay{
-    position:fixed; inset:0; z-index:1999;
-    background:
-      radial-gradient(circle at 20% 20%, rgba(192,138,114,0.18), transparent 55%),
-      radial-gradient(circle at 80% 80%, rgba(168,98,63,0.12), transparent 55%),
-      var(--stone);
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; visibility:hidden; pointer-events:none;
-    transition:opacity 0.9s ease, visibility 0.9s ease;
+  .envelope-names{
+    font-family:'Alex Brush', cursive; font-size:3.6rem; font-weight:400;
+    margin-bottom:14px; color:var(--ink); letter-spacing:0.02em;
+    text-align:center; padding:0 16px;
   }
-  #verse-overlay.visible{ opacity:1; visibility:visible; }
-  .verse-img{
-    max-width:96vw; max-height:96vh;
-    width:auto; height:auto;
-    box-shadow:0 18px 40px rgba(80,50,35,0.2);
-    border-radius:2px;
+  .envelope-sub{
+    font-size:0.95rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:#7a3f28; margin-bottom:36px; font-weight:500;
+    text-align:center; max-width:320px; padding:0 20px;
   }
-  .envelope-wrap{ display:flex; flex-direction:column; align-items:center; cursor:pointer; position:relative; }
-  .envelope-stage{
-    position:relative;
-    width:min(90vw, 620px);
-    height:min(72vw, 500px);
+  .envelope-wrap{ display:flex; flex-direction:column; align-items:center; cursor:pointer; }
+  .envelope{
+    position:relative; width:580px; height:406px;
+    transform:rotate(-3deg);
+    transition:transform 0.35s ease;
   }
-  .envelope-img{
+  .envelope-wrap:hover .envelope{ transform:rotate(-3deg) translateY(-4px); }
+  .env-shadow{
+    position:absolute; left:6%; right:6%; bottom:-20px; height:24px;
+    background:radial-gradient(ellipse at center, rgba(33,31,26,0.16), transparent 70%);
+    z-index:0;
+  }
+  .env-body{
     position:absolute; inset:0;
-    width:100%; height:100%;
-    object-fit:contain;
-    transition:opacity 0.9s ease;
-    filter:drop-shadow(0 16px 30px rgba(40,10,20,0.28));
+    background:linear-gradient(155deg, #6d2340 0%, var(--wine) 55%, var(--wine-dark) 100%);
+    box-shadow:0 18px 34px rgba(40,10,20,0.35);
+    z-index:1;
   }
-  #env-closed{ opacity:1; }
-  #env-open{ opacity:0; }
-  .envelope-wrap.open #env-closed{ opacity:0; }
-  .envelope-wrap.open #env-open{ opacity:1; }
+  .env-body::before, .env-body::after{
+    content:''; position:absolute; top:0; width:50%; height:100%;
+    background:linear-gradient(180deg, rgba(0,0,0,0.16), transparent 45%);
+  }
+  .env-body::before{ left:0; clip-path:polygon(0 0, 100% 50%, 0 100%); }
+  .env-body::after{ right:0; clip-path:polygon(100% 0, 0 50%, 100% 100%); }
+  .env-letter{
+    position:absolute; left:9%; right:9%; top:9%; height:78%;
+    background:#fffefc;
+    z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:transform 1s cubic-bezier(.4,0,.2,1), box-shadow 1s ease, opacity 0.3s ease;
+    text-align:center; padding:10px;
+    box-shadow:0 6px 16px rgba(80,50,35,0.14);
+    transform:rotate(-2deg);
+    opacity:0;
+  }
+  .env-letter .letter-sprig{ width:110px; height:auto; margin-bottom:14px; }
+  .env-letter .lm{ font-family:'Alex Brush', cursive; font-size:2.8rem; color:var(--wine); }
+  .env-letter .ls{ font-family:'Cormorant Garamond', serif; font-size:1.6rem; font-style:italic; color:var(--ink); margin-top:8px; }
+  .env-seal{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:86px; height:86px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #f3ead9, #e4d5b8 60%, #cdb98e 100%);
+    color:var(--wine);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Alex Brush', cursive; font-size:2rem; font-weight:400;
+    z-index:4; box-shadow:0 3px 8px rgba(40,10,20,0.35), inset 0 1px 2px rgba(255,255,255,0.6);
+    transition:opacity 0.4s ease, transform 0.4s ease;
+  }
+  .envelope.open .env-seal{ opacity:0; transform:translate(-50%,-50%) scale(0.7); }
+  .envelope.open .env-letter{
+    transform:rotate(-2deg) translateY(-160%);
+    box-shadow:0 14px 30px rgba(0,0,0,0.16);
+    opacity:1;
+    transition-delay:0.15s;
+  }
   .envelope-hint{
     margin-top:26px; font-size:0.72rem; letter-spacing:0.24em;
     text-transform:uppercase; color:var(--ink-soft);
     transition:opacity 0.4s ease;
   }
   @media (max-width:500px){
-    .envelope-stage{ width:92vw; height:74vw; }
+    .envelope{ width:90vw; height:63vw; }
+    .envelope-names{ font-size:2.1rem; }
   }
 
   #music-toggle{
@@ -368,9 +391,21 @@
   footer{
     text-align:center; padding:60px 24px 50px;
   }
-  footer .names-sm{
+  .verse-quote{
+    margin-bottom:34px;
+  }
+  .verse-quote p{
     font-family:'Cormorant Garamond', serif;
-    font-size:1.3rem; color:var(--ink);
+    font-size:1.15rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink); font-weight:500; margin-bottom:8px;
+  }
+  .verse-quote span{
+    font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--terracotta);
+  }
+  footer .names-sm{
+    font-family:'Alex Brush', cursive;
+    font-size:2rem; color:var(--ink);
   }
   footer .small{
     display:block; font-family:'Jost',sans-serif; font-size:0.68rem;
@@ -381,25 +416,38 @@
 <body>
 
 <div id="envelope-overlay">
+  <div class="envelope-names">Rosalinda &amp; Gerard</div>
+  <div class="envelope-sub">Request the pleasure of your company</div>
   <div class="envelope-wrap" id="envelope-wrap">
-    <div class="envelope-stage">
-      <img id="env-closed" class="envelope-img" src="envelope-closed.png" alt="You've got mail from Rosalinda &amp; Gerard">
-      <img id="env-open" class="envelope-img" src="envelope-open.png" alt="Save Our Date, Rosalinda &amp; Gerard, 3 October 2026">
+    <div class="envelope" id="envelope">
+      <div class="env-shadow"></div>
+      <div class="env-body"></div>
+      <div class="env-letter">
+        <svg class="letter-sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.6"/>
+          <g fill="var(--sage)" opacity="0.55">
+            <ellipse cx="35" cy="21" rx="6" ry="2.6" transform="rotate(-35 35 21)"/>
+            <ellipse cx="55" cy="16" rx="6" ry="2.6" transform="rotate(-20 55 16)"/>
+            <ellipse cx="78" cy="12.5" rx="6" ry="2.6" transform="rotate(-8 78 12.5)"/>
+            <ellipse cx="100" cy="11" rx="6" ry="2.6" transform="rotate(0 100 11)"/>
+            <ellipse cx="122" cy="12.5" rx="6" ry="2.6" transform="rotate(8 122 12.5)"/>
+            <ellipse cx="145" cy="16" rx="6" ry="2.6" transform="rotate(20 145 16)"/>
+            <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
+          </g>
+        </svg>
+        <div class="lm">R &amp; G</div>
+        <div class="ls">You're Invited</div>
+      </div>
+      <div class="env-seal">R&amp;G</div>
     </div>
-    <div class="envelope-hint" id="envelope-hint">Tap Envelope to Open</div>
+    <div class="envelope-hint" id="envelope-hint">Tap to Open</div>
   </div>
-</div>
-
-<div id="verse-overlay">
-  <img class="verse-img" src="verse.jpg" alt="Matthew 19:6 wedding verse">
 </div>
 
 <nav>
   <div class="wrap">
     <a href="#" class="names" style="text-decoration:none;">R &amp; G</a>
     <ul>
-      <li><a href="#story">Story</a></li>
-      <li><a href="#gallery">Gallery</a></li>
       <li><a href="#schedule">Schedule</a></li>
       <li><a href="#details">Details</a></li>
       <li><a href="#rsvp">RSVP</a></li>
@@ -421,63 +469,19 @@
     <div><span class="num" id="cd-secs">--</span><span class="lbl">Seconds</span></div>
   </div>
   <a class="cal-btn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Rosalinda+%26+Gerard%27s+Wedding&dates=20261003T173000Z/20261004T030000Z&details=Ceremony+at+Corpus+Christi+Roman+Catholic+Church%2C+218+Washington+Pl%2C+Hasbrouck+Heights%2C+NJ.+Reception+at+Carro+Cafe%2C+518+32nd+St%2C+Union+City%2C+NJ.&location=218+Washington+Pl%2C+Hasbrouck+Heights%2C+NJ+07604" target="_blank">Add to Calendar</a>
-  <img class="dove-icon" src="dove.png" alt="Dove holding an olive branch, a symbol of peace and love">
+  <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.6"/>
+    <g fill="var(--sage)" opacity="0.55">
+      <ellipse cx="35" cy="21" rx="7" ry="3" transform="rotate(-35 35 21)"/>
+      <ellipse cx="55" cy="16" rx="7" ry="3" transform="rotate(-20 55 16)"/>
+      <ellipse cx="78" cy="12.5" rx="7" ry="3" transform="rotate(-8 78 12.5)"/>
+      <ellipse cx="100" cy="11" rx="7" ry="3" transform="rotate(0 100 11)"/>
+      <ellipse cx="122" cy="12.5" rx="7" ry="3" transform="rotate(8 122 12.5)"/>
+      <ellipse cx="145" cy="16" rx="7" ry="3" transform="rotate(20 145 16)"/>
+      <ellipse cx="165" cy="21" rx="7" ry="3" transform="rotate(35 165 21)"/>
+    </g>
+  </svg>
 </header>
-
-<section id="story">
-  <div class="wrap">
-    <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
-      <g fill="var(--sage)" opacity="0.45">
-        <ellipse cx="35" cy="21" rx="6" ry="2.6" transform="rotate(-35 35 21)"/>
-        <ellipse cx="55" cy="16" rx="6" ry="2.6" transform="rotate(-20 55 16)"/>
-        <ellipse cx="78" cy="12.5" rx="6" ry="2.6" transform="rotate(-8 78 12.5)"/>
-        <ellipse cx="100" cy="11" rx="6" ry="2.6" transform="rotate(0 100 11)"/>
-        <ellipse cx="122" cy="12.5" rx="6" ry="2.6" transform="rotate(8 122 12.5)"/>
-        <ellipse cx="145" cy="16" rx="6" ry="2.6" transform="rotate(20 145 16)"/>
-        <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
-      </g>
-    </svg>
-    <h2 class="section-title">Our Story</h2>
-    <div class="section-sub">How it began</div>
-    <p class="story-text">
-      Rosalinda and Gerard met at Costco, where they worked together and for
-      Gerard, it was love at first sight. Not long after, they welcomed two dogs,
-      Winter and Shadow, and bought a home together, where they built a life for
-      many years. Winter and Shadow have since passed, but their love lives on
-      in the family that followed: Samson and Spruce, and a bunny named Cinnabon.
-      Rosalinda and Gerard cherish their animals and can't resist a good walk together.
-    </p>
-  </div>
-</section>
-
-
-<section id="gallery">
-  <div class="wrap">
-    <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
-      <g fill="var(--sage)" opacity="0.45">
-        <ellipse cx="35" cy="21" rx="6" ry="2.6" transform="rotate(-35 35 21)"/>
-        <ellipse cx="55" cy="16" rx="6" ry="2.6" transform="rotate(-20 55 16)"/>
-        <ellipse cx="78" cy="12.5" rx="6" ry="2.6" transform="rotate(-8 78 12.5)"/>
-        <ellipse cx="100" cy="11" rx="6" ry="2.6" transform="rotate(0 100 11)"/>
-        <ellipse cx="122" cy="12.5" rx="6" ry="2.6" transform="rotate(8 122 12.5)"/>
-        <ellipse cx="145" cy="16" rx="6" ry="2.6" transform="rotate(20 145 16)"/>
-        <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
-      </g>
-    </svg>
-    <h2 class="section-title">Gallery</h2>
-    <div class="section-sub">A few of our favorites</div>
-    <div class="gallery">
-      <img src="images/gallery-1.jpg" alt="Rosalinda and Gerard">
-      <img src="images/gallery-2.jpg" alt="Rosalinda and Gerard">
-      <img src="images/gallery-3.jpg" alt="Rosalinda and Gerard">
-      <img src="images/gallery-4.jpg" alt="Rosalinda and Gerard">
-      <img src="images/gallery-5.jpg" alt="Rosalinda and Gerard">
-      <img src="images/gallery-6.jpg" alt="Rosalinda and Gerard">
-    </div>
-  </div>
-</section>
 
 <section id="schedule">
   <div class="wrap">
@@ -660,6 +664,10 @@
 </section>
 
 <footer>
+  <div class="verse-quote">
+    <p>We love because He first loved us.</p>
+    <span>1 John 4:19</span>
+  </div>
   <div class="names-sm">Rosalinda &amp; Gerard</div>
   <span class="small">October 3, 2026</span>
 </footer>
@@ -689,38 +697,25 @@
 
   document.documentElement.style.overflow = 'hidden';
   var overlay = document.getElementById('envelope-overlay');
-  var verseOverlay = document.getElementById('verse-overlay');
+  var envelope = document.getElementById('envelope');
   var hint = document.getElementById('envelope-hint');
   var wrap = document.getElementById('envelope-wrap');
   var music = document.getElementById('bg-music');
   var musicBtn = document.getElementById('music-toggle');
   wrap.addEventListener('click', function(){
-    if (wrap.classList.contains('open')) return;
-    wrap.classList.add('open');
+    if (envelope.classList.contains('open')) return;
+    envelope.classList.add('open');
     hint.style.opacity = '0';
     music.volume = 0.5;
     music.play().catch(function(){});
     musicBtn.classList.add('visible');
-    // give guests a moment to see the opened envelope/card
-    // before the verse card fades in on top of it
-    setTimeout(function(){
-      verseOverlay.classList.add('visible');
-    }, 1800);
-    // envelope overlay fades out only once the verse is fully opaque
     setTimeout(function(){
       overlay.classList.add('hide');
-    }, 2700);
+      document.documentElement.style.overflow = '';
+    }, 1250);
     setTimeout(function(){
       overlay.style.display = 'none';
-    }, 3500);
-    setTimeout(function(){
-      // verse card fades out, revealing the main site
-      verseOverlay.classList.remove('visible');
-    }, 11500);
-    setTimeout(function(){
-      verseOverlay.style.display = 'none';
-      document.documentElement.style.overflow = '';
-    }, 12500);
+    }, 2100);
   });
   musicBtn.addEventListener('click', function(){
     if (music.paused){

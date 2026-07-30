@@ -846,43 +846,46 @@
     }, 900);
   }
 
-  function spawnPetals(){
+  function spawnPetal(){
     var layer = document.getElementById('petal-layer');
     if (!layer) return;
     var colors = ['#c08a72', '#a8623f', '#7c8467', '#5a1c34'];
-    var count = 26;
-    for (var i = 0; i < count; i++){
-      (function(i){
-        var petal = document.createElement('div');
-        petal.className = 'petal';
-        var size = 8 + Math.random() * 8;
-        var left = Math.random() * 100;
-        var duration = 6 + Math.random() * 5;
-        var delay = Math.random() * 4;
-        var drift = (Math.random() * 120 - 60) + 'px';
-        var color = colors[Math.floor(Math.random() * colors.length)];
-        petal.style.left = left + 'vw';
-        petal.style.width = size + 'px';
-        petal.style.height = (size * 1.3) + 'px';
-        petal.style.background = color;
-        petal.style.opacity = '0.85';
-        petal.style.borderRadius = '60% 5% 60% 5%';
-        petal.style.setProperty('--drift', drift);
-        petal.style.animationDuration = duration + 's';
-        petal.style.animationDelay = delay + 's';
-        layer.appendChild(petal);
-        setTimeout(function(){ petal.remove(); }, (duration + delay) * 1000 + 500);
-      })(i);
+    var petal = document.createElement('div');
+    petal.className = 'petal';
+    var size = 8 + Math.random() * 8;
+    var left = Math.random() * 100;
+    var duration = 7 + Math.random() * 6;
+    var drift = (Math.random() * 120 - 60) + 'px';
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    petal.style.left = left + 'vw';
+    petal.style.width = size + 'px';
+    petal.style.height = (size * 1.3) + 'px';
+    petal.style.background = color;
+    petal.style.opacity = '0.85';
+    petal.style.borderRadius = '60% 5% 60% 5%';
+    petal.style.setProperty('--drift', drift);
+    petal.style.animationDuration = duration + 's';
+    layer.appendChild(petal);
+    setTimeout(function(){ petal.remove(); }, duration * 1000 + 500);
+  }
+
+  var petalInterval = null;
+  function startPetals(){
+    if (petalInterval) return;
+    // a soft, steady drift of petals for the whole visit
+    for (var i = 0; i < 8; i++){
+      setTimeout(spawnPetal, i * 350);
     }
+    petalInterval = setInterval(spawnPetal, 700);
   }
 
   wrap.addEventListener('click', function(){
     if (envelope.classList.contains('open')) return;
     envelope.classList.add('open');
     hint.style.opacity = '0';
-    // gentle falling petals to mark the moment the envelope opens
+    // gentle falling petals, continuous for the rest of the visit
     document.getElementById('petal-layer').classList.add('active');
-    spawnPetals();
+    startPetals();
     // music disabled for now while testing -- to re-enable, uncomment the two lines below
     // music.volume = 0.5;
     // music.play().catch(function(){});

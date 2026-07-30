@@ -308,6 +308,24 @@
   }
   #envelope-overlay.hide{ opacity:0; visibility:hidden; pointer-events:none; }
 
+  #verse-overlay{
+    position:fixed; inset:0; z-index:1999;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(192,138,114,0.18), transparent 55%),
+      radial-gradient(circle at 80% 80%, rgba(168,98,63,0.12), transparent 55%),
+      var(--stone);
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; pointer-events:none;
+    transition:opacity 0.9s ease, visibility 0.9s ease;
+  }
+  #verse-overlay.visible{ opacity:1; visibility:visible; }
+  .verse-img{
+    max-width:96vw; max-height:96vh;
+    width:auto; height:auto;
+    box-shadow:0 18px 40px rgba(80,50,35,0.2);
+    border-radius:2px;
+  }
+
   .envelope-names{
     font-family:'Alex Brush', cursive; font-size:3.6rem; font-weight:400;
     margin-bottom:14px; color:var(--ink); letter-spacing:0.02em;
@@ -468,6 +486,10 @@
     </div>
     <div class="envelope-hint" id="envelope-hint">Tap to Open</div>
   </div>
+</div>
+
+<div id="verse-overlay">
+  <img class="verse-img" src="verse.jpg" alt="Matthew 19:6 wedding verse">
 </div>
 
 <nav>
@@ -714,6 +736,7 @@
 
   document.documentElement.style.overflow = 'hidden';
   var overlay = document.getElementById('envelope-overlay');
+  var verseOverlay = document.getElementById('verse-overlay');
   var envelope = document.getElementById('envelope');
   var hint = document.getElementById('envelope-hint');
   var wrap = document.getElementById('envelope-wrap');
@@ -726,13 +749,26 @@
     music.volume = 0.5;
     music.play().catch(function(){});
     musicBtn.classList.add('visible');
+    // verse card starts fading in first, so it's already opaque
+    // by the time the envelope overlay finishes fading away
+    setTimeout(function(){
+      verseOverlay.classList.add('visible');
+    }, 900);
+    // envelope fades out on top of the (now opaque) verse layer
     setTimeout(function(){
       overlay.classList.add('hide');
-      document.documentElement.style.overflow = '';
     }, 1250);
     setTimeout(function(){
       overlay.style.display = 'none';
     }, 2100);
+    setTimeout(function(){
+      // verse card fades out, revealing the main site
+      verseOverlay.classList.remove('visible');
+      document.documentElement.style.overflow = '';
+    }, 10100);
+    setTimeout(function(){
+      verseOverlay.style.display = 'none';
+    }, 11100);
   });
   musicBtn.addEventListener('click', function(){
     if (music.paused){

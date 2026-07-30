@@ -397,22 +397,22 @@
   #music-toggle.paused{ color:var(--ink-soft); }
 
   #rosary-decor{
-    position:fixed;
-    top:50%; right:-10px;
-    transform:translateY(-50%);
-    width:190px; height:auto;
-    z-index:10;
+    position:absolute;
+    top:0; right:60px;
+    width:220px; height:100%;
+    object-fit:fill;
+    z-index:1;
     pointer-events:none;
-    opacity:0.92;
+    opacity:0.85;
   }
   #floral-decor{
-    position:fixed;
-    top:50%; left:-10px;
-    transform:translateY(-50%);
-    width:170px; height:auto;
-    z-index:10;
+    position:absolute;
+    top:0; left:60px;
+    width:190px; height:100%;
+    object-fit:fill;
+    z-index:1;
     pointer-events:none;
-    opacity:0.92;
+    opacity:0.85;
   }
   @media (max-width:1100px){
     #rosary-decor{ display:none; }
@@ -748,6 +748,18 @@
       musicBtn.classList.add('paused');
     }
   });
+
+  // stretch the side decorations to match the full scrollable page height
+  function syncDecorHeight(){
+    var h = document.documentElement.scrollHeight + 'px';
+    var rosary = document.getElementById('rosary-decor');
+    var floral = document.getElementById('floral-decor');
+    if (rosary) rosary.style.height = h;
+    if (floral) floral.style.height = h;
+  }
+  syncDecorHeight();
+  window.addEventListener('resize', syncDecorHeight);
+  window.addEventListener('load', syncDecorHeight);
 </script>
 
 </body>

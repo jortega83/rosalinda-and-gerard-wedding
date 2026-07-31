@@ -484,13 +484,30 @@
   .registry-links a:hover::before{ left:130%; }
 
   /* GUEST LIST */
+  .wave-divider{
+    width:100%; max-width:460px; margin:8px auto 6px;
+    height:24px; overflow:hidden;
+  }
+  .wave-divider svg{
+    display:block; width:200%; height:100%;
+    animation:waveDrift 9s linear infinite;
+  }
+  .wave-divider-flip{ margin-top:28px; }
+  .wave-divider-flip svg{
+    animation-direction:reverse;
+  }
+  @keyframes waveDrift{
+    from{ transform:translateX(0); }
+    to{ transform:translateX(-50%); }
+  }
   .guest-frame{
     position:relative;
-    max-width:760px; margin:44px auto 0;
+    max-width:760px; margin:30px auto 0;
     border:2px solid var(--gold);
     border-radius:140px 140px 18px 18px / 100px 100px 18px 18px;
     padding:80px 44px 56px;
     background:var(--paper);
+    box-shadow:0 0 0 1px rgba(192,138,114,0.14), 0 18px 40px rgba(90,28,52,0.10);
   }
   .guest-frame::before{
     content:'';
@@ -508,7 +525,9 @@
     font-size:1.08rem; letter-spacing:0.05em; text-transform:uppercase;
     color:var(--ink); text-align:center;
     padding:9px 0; border-bottom:1px solid var(--line);
+    transition:color 0.2s ease;
   }
+  .guest-name:hover{ color:var(--terracotta); }
   .guest-col .guest-name:last-child{ border-bottom:none; }
   @media (max-width:640px){
     .guest-frame{
@@ -1111,18 +1130,11 @@
 
 <section id="guestlist">
   <div class="wrap reveal">
-    <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
-      <g fill="var(--sage)" opacity="0.45">
-        <ellipse cx="35" cy="21" rx="6" ry="2.6" transform="rotate(-35 35 21)"/>
-        <ellipse cx="55" cy="16" rx="6" ry="2.6" transform="rotate(-20 55 16)"/>
-        <ellipse cx="78" cy="12.5" rx="6" ry="2.6" transform="rotate(-8 78 12.5)"/>
-        <ellipse cx="100" cy="11" rx="6" ry="2.6" transform="rotate(0 100 11)"/>
-        <ellipse cx="122" cy="12.5" rx="6" ry="2.6" transform="rotate(8 122 12.5)"/>
-        <ellipse cx="145" cy="16" rx="6" ry="2.6" transform="rotate(20 145 16)"/>
-        <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
-      </g>
-    </svg>
+    <div class="wave-divider">
+      <svg viewBox="0 0 800 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C25,0 75,40 100,20 C125,0 175,40 200,20 C225,0 275,40 300,20 C325,0 375,40 400,20 C425,0 475,40 500,20 C525,0 575,40 600,20 C625,0 675,40 700,20 C725,0 775,40 800,20" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+      </svg>
+    </div>
     <h2 class="section-title">Guest List</h2>
     <div class="section-sub">Find your name below</div>
 
@@ -1176,6 +1188,11 @@
           <span class="guest-name">Justin Jackson</span>
         </div>
       </div>
+    </div>
+    <div class="wave-divider wave-divider-flip">
+      <svg viewBox="0 0 800 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,20 C25,0 75,40 100,20 C125,0 175,40 200,20 C225,0 275,40 300,20 C325,0 375,40 400,20 C425,0 475,40 500,20 C525,0 575,40 600,20 C625,0 675,40 700,20 C725,0 775,40 800,20" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+      </svg>
     </div>
   </div>
 </section>

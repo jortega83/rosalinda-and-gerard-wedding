@@ -538,13 +538,21 @@
     background-clip:text;
     color:var(--ink);
     -webkit-text-fill-color:transparent;
-    animation:nameShimmer 7s ease-in-out infinite;
+    animation:nameFloat 3.4s ease-in-out infinite, nameShimmer 7s ease-in-out infinite;
     transition:filter 0.2s ease;
+    will-change:transform;
   }
   .guest-name:hover{ filter:brightness(1.15); }
-  .guest-col .guest-name:nth-child(3n+1){ animation-delay:0s; }
-  .guest-col .guest-name:nth-child(3n+2){ animation-delay:1.4s; }
-  .guest-col .guest-name:nth-child(3n){ animation-delay:2.8s; }
+  .guest-col .guest-name:nth-child(6n+1){ animation-delay:0s, 0s; }
+  .guest-col .guest-name:nth-child(6n+2){ animation-delay:0.3s, 1.2s; }
+  .guest-col .guest-name:nth-child(6n+3){ animation-delay:0.6s, 2.4s; }
+  .guest-col .guest-name:nth-child(6n+4){ animation-delay:0.9s, 3.6s; }
+  .guest-col .guest-name:nth-child(6n+5){ animation-delay:1.2s, 4.8s; }
+  .guest-col .guest-name:nth-child(6n){ animation-delay:1.5s, 6s; }
+  @keyframes nameFloat{
+    0%, 100%{ transform:translateY(0); }
+    50%{ transform:translateY(-4px); }
+  }
   @keyframes nameShimmer{
     0%, 15%{ background-position:100% 0; }
     50%{ background-position:0% 0; }

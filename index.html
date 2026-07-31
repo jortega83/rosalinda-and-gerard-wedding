@@ -166,21 +166,43 @@
   .hero > *:not(.hero-monogram){ position:relative; z-index:1; }
   .hero .eyebrow{
     font-size:0.78rem; letter-spacing:0.42em; text-transform:uppercase;
-    color:var(--gold); margin-bottom:34px; font-weight:400;
+    margin-bottom:34px; font-weight:400;
+    display:inline-block;
+    background-image:linear-gradient(120deg, var(--gold) 35%, var(--terracotta) 50%, var(--gold) 65%);
+    background-size:220% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:var(--gold);
+    -webkit-text-fill-color:transparent;
+    animation:nameFloat 3.8s ease-in-out infinite, nameShimmer 8s ease-in-out infinite;
+    will-change:transform;
   }
   .hero h1{
     font-family:'Alex Brush', cursive;
     font-size:clamp(3.6rem, 12vw, 7.5rem);
     line-height:1.05;
     font-weight:400;
+    display:inline-block;
+    background-image:linear-gradient(120deg, var(--ink) 35%, var(--gold) 50%, var(--ink) 65%);
+    background-size:220% 100%;
+    background-position:100% 0;
+    -webkit-background-clip:text;
+    background-clip:text;
     color:var(--ink);
+    -webkit-text-fill-color:transparent;
+    animation:nameFloat 4.2s ease-in-out infinite, nameShimmer 9s ease-in-out infinite;
+    will-change:transform;
   }
   .hero .amp{
     display:block;
     font-style:italic;
-    color:var(--sage);
     font-size:0.48em;
     margin:6px 0;
+    background-image:none;
+    color:var(--sage);
+    -webkit-text-fill-color:var(--sage);
+    animation:none;
   }
   .hero .date{
     margin-top:34px;

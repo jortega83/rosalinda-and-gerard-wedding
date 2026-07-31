@@ -628,9 +628,14 @@
   #music-toggle:hover{ transform:scale(1.06); }
   #music-toggle svg{
     width:34px; height:34px;
+    display:block;
+  }
+  .vinyl-disc{
+    width:34px; height:34px;
+    transform-origin:50% 50%;
     animation:vinylSpin 3.2s linear infinite;
   }
-  #music-toggle.paused svg{ animation-play-state:paused; }
+  #music-toggle.paused .vinyl-disc{ animation-play-state:paused; }
   @keyframes vinylSpin{
     from{ transform:rotate(0deg); }
     to{ transform:rotate(360deg); }
@@ -1189,14 +1194,16 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 <div id="music-toggle" title="Toggle music">
-  <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="26" cy="26" r="24" fill="#211f1a"/>
-    <circle cx="26" cy="26" r="19" fill="none" stroke="#39362f" stroke-width="1"/>
-    <circle cx="26" cy="26" r="15" fill="none" stroke="#39362f" stroke-width="1"/>
-    <circle cx="26" cy="26" r="11" fill="none" stroke="#39362f" stroke-width="1"/>
-    <circle cx="26" cy="26" r="7.5" fill="var(--terracotta)"/>
-    <circle cx="26" cy="26" r="2" fill="var(--paper)"/>
-  </svg>
+  <div class="vinyl-disc">
+    <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="26" cy="26" r="24" fill="#211f1a"/>
+      <circle cx="26" cy="26" r="19" fill="none" stroke="#39362f" stroke-width="1"/>
+      <circle cx="26" cy="26" r="15" fill="none" stroke="#39362f" stroke-width="1"/>
+      <circle cx="26" cy="26" r="11" fill="none" stroke="#39362f" stroke-width="1"/>
+      <circle cx="26" cy="26" r="7.5" fill="var(--terracotta)"/>
+      <circle cx="26" cy="26" r="2" fill="var(--paper)"/>
+    </svg>
+  </div>
 </div>
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");

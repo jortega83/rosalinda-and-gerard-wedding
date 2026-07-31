@@ -484,21 +484,27 @@
   .registry-links a:hover::before{ left:130%; }
 
   /* GUEST LIST */
-  .wave-divider{
-    width:100%; max-width:460px; margin:8px auto 6px;
-    height:24px; overflow:hidden;
+  .water-wave{
+    position:relative;
+    width:100%; max-width:600px; margin:10px auto 4px;
+    height:50px; overflow:hidden;
   }
-  .wave-divider svg{
+  .water-wave-flip{ margin-top:32px; margin-bottom:0; }
+  .water-layer{
+    position:absolute; top:0; left:0;
     display:block; width:200%; height:100%;
-    animation:waveDrift 9s linear infinite;
   }
-  .wave-divider-flip{ margin-top:28px; }
-  .wave-divider-flip svg{
-    animation-direction:reverse;
-  }
-  @keyframes waveDrift{
+  .water-back{ animation:waveDriftBack 11s linear infinite; }
+  .water-front{ animation:waveDriftFront 7s linear infinite; }
+  .water-wave-flip .water-back{ animation-direction:reverse; }
+  .water-wave-flip .water-front{ animation-direction:reverse; }
+  @keyframes waveDriftBack{
     from{ transform:translateX(0); }
     to{ transform:translateX(-50%); }
+  }
+  @keyframes waveDriftFront{
+    from{ transform:translateX(-50%); }
+    to{ transform:translateX(0); }
   }
   .guest-frame{
     position:relative;
@@ -1130,9 +1136,12 @@
 
 <section id="guestlist">
   <div class="wrap reveal">
-    <div class="wave-divider">
-      <svg viewBox="0 0 800 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,20 C25,0 75,40 100,20 C125,0 175,40 200,20 C225,0 275,40 300,20 C325,0 375,40 400,20 C425,0 475,40 500,20 C525,0 575,40 600,20 C625,0 675,40 700,20 C725,0 775,40 800,20" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+    <div class="water-wave">
+      <svg class="water-layer water-back" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,32 C50,14 150,50 200,32 C250,14 350,50 400,32 C450,14 550,50 600,32 C650,14 750,50 800,32 L800,60 L0,60 Z" fill="var(--gold)" opacity="0.22"/>
+      </svg>
+      <svg class="water-layer water-front" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,38 C40,50 120,18 200,32 C260,42 340,16 400,30 C460,44 540,14 600,30 C660,44 740,16 800,30 L800,60 L0,60 Z" fill="var(--terracotta)" opacity="0.32"/>
       </svg>
     </div>
     <h2 class="section-title">Guest List</h2>
@@ -1141,57 +1150,60 @@
     <div class="guest-frame">
       <div class="guest-columns">
         <div class="guest-col">
-          <span class="guest-name">Norka Ramos</span>
-          <span class="guest-name">Robert Ramos</span>
-          <span class="guest-name">Robert A. Ramos &amp; Guest</span>
-          <span class="guest-name">Johanna Ortega</span>
-          <span class="guest-name">Julian Ortega</span>
-          <span class="guest-name">Julian N. Ortega</span>
-          <span class="guest-name">Justin Ortega</span>
-          <span class="guest-name">Norka Torres</span>
-          <span class="guest-name">Victor Torres</span>
-          <span class="guest-name">Leila Torres</span>
-          <span class="guest-name">Chloe Torres</span>
-          <span class="guest-name">Victor E. Torres</span>
-          <span class="guest-name">Ida Nicolas</span>
-          <span class="guest-name">Francisco Nicolas</span>
-          <span class="guest-name">Diane Nicolas</span>
+          <span class="guest-name">Ailene Wright</span>
+          <span class="guest-name">Al Espiritu</span>
+          <span class="guest-name">Alex Montalbo</span>
+          <span class="guest-name">Alex Soria</span>
+          <span class="guest-name">Allan Espiritu &amp; Guest</span>
           <span class="guest-name">Bryan Vuong</span>
-          <span class="guest-name">Nicole Nicolas</span>
+          <span class="guest-name">Carol Espiritu</span>
+          <span class="guest-name">Chloe Torres</span>
+          <span class="guest-name">Danny Claros</span>
           <span class="guest-name">Dave Capala</span>
-          <span class="guest-name">Myra Beckmeyer</span>
-          <span class="guest-name">Vincent Dellavolla</span>
-          <span class="guest-name">Jessica Dennerlein</span>
+          <span class="guest-name">Diane Nicolas</span>
+          <span class="guest-name">Elaine Claros</span>
           <span class="guest-name">Eli Nicolas &amp; Guest</span>
+          <span class="guest-name">Eric Abrew</span>
+          <span class="guest-name">Fe Cerezo</span>
+          <span class="guest-name">Francisco Nicolas</span>
+          <span class="guest-name">Grace Montalbo</span>
+          <span class="guest-name">Ida Nicolas</span>
+          <span class="guest-name">Jessica Dennerlein</span>
+          <span class="guest-name">Johanna Ortega</span>
+          <span class="guest-name">Jojo Cerezo</span>
+          <span class="guest-name">Jorge Diaz</span>
         </div>
         <div class="guest-col">
-          <span class="guest-name">Eric Abrew</span>
-          <span class="guest-name">Lisa Abrew</span>
-          <span class="guest-name">Carol Espiritu</span>
-          <span class="guest-name">Al Espiritu</span>
-          <span class="guest-name">Allan Espiritu &amp; Guest</span>
-          <span class="guest-name">Ailene Wright</span>
-          <span class="guest-name">Vinscenzo Wright</span>
-          <span class="guest-name">Alex Montalbo</span>
-          <span class="guest-name">Grace Montalbo</span>
-          <span class="guest-name">Monalie Arico</span>
-          <span class="guest-name">Elaine Claros</span>
-          <span class="guest-name">Danny Claros</span>
-          <span class="guest-name">Luz Soria</span>
-          <span class="guest-name">Alex Soria</span>
-          <span class="guest-name">Fe Cerezo</span>
-          <span class="guest-name">Jojo Cerezo</span>
           <span class="guest-name">Josie Estrada</span>
-          <span class="guest-name">Lynette Exconde</span>
-          <span class="guest-name">Nathalie Pisco &amp; Guest</span>
-          <span class="guest-name">Jorge Diaz</span>
+          <span class="guest-name">Julian N. Ortega</span>
+          <span class="guest-name">Julian Ortega</span>
           <span class="guest-name">Justin Jackson</span>
+          <span class="guest-name">Justin Ortega</span>
+          <span class="guest-name">Leila Torres</span>
+          <span class="guest-name">Lisa Abrew</span>
+          <span class="guest-name">Luz Soria</span>
+          <span class="guest-name">Lynette Exconde</span>
+          <span class="guest-name">Monalie Arico</span>
+          <span class="guest-name">Myra Beckmeyer</span>
+          <span class="guest-name">Nathalie Pisco &amp; Guest</span>
+          <span class="guest-name">Nicole Nicolas</span>
+          <span class="guest-name">Norka Ramos</span>
+          <span class="guest-name">Norka Torres</span>
+          <span class="guest-name">Robert A. Ramos &amp; Guest</span>
+          <span class="guest-name">Robert Ramos</span>
+          <span class="guest-name">Victor E. Torres</span>
+          <span class="guest-name">Victor Torres</span>
+          <span class="guest-name">Vincent Dellavolla</span>
+          <span class="guest-name">Vinscenzo Wright</span>
         </div>
       </div>
     </div>
-    <div class="wave-divider wave-divider-flip">
-      <svg viewBox="0 0 800 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,20 C25,0 75,40 100,20 C125,0 175,40 200,20 C225,0 275,40 300,20 C325,0 375,40 400,20 C425,0 475,40 500,20 C525,0 575,40 600,20 C625,0 675,40 700,20 C725,0 775,40 800,20" fill="none" stroke="var(--gold)" stroke-width="1.5"/>
+    <div class="water-wave water-wave-flip">
+      <svg class="water-layer water-back" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,32 C50,14 150,50 200,32 C250,14 350,50 400,32 C450,14 550,50 600,32 C650,14 750,50 800,32 L800,60 L0,60 Z" fill="var(--gold)" opacity="0.22"/>
+      </svg>
+      <svg class="water-layer water-front" viewBox="0 0 800 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,38 C40,50 120,18 200,32 C260,42 340,16 400,30 C460,44 540,14 600,30 C660,44 740,16 800,30 L800,60 L0,60 Z" fill="var(--terracotta)" opacity="0.32"/>
       </svg>
     </div>
   </div>

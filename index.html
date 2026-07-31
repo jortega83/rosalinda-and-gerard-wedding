@@ -640,41 +640,31 @@
   #countdown-banner{ text-align:center; }
   .cdb-row{ padding:30px 24px; }
   .cdb-title-row{ background:var(--paper); }
-  .cdb-nums-row{ background:rgba(90,28,52,0.06); padding-top:24px; padding-bottom:24px; }
-  .cdb-labels-row{ background:var(--paper); }
+  .cdb-nums-row{ background:rgba(90,28,52,0.06); padding-top:40px; padding-bottom:40px; }
   .cdb-title{
     font-family:'Alex Brush', cursive;
     font-size:2.6rem;
     color:var(--wine);
   }
   .cdb-numbers{
-    display:flex; justify-content:center; align-items:baseline; gap:18px;
+    display:flex; justify-content:center; gap:28px;
     flex-wrap:wrap;
   }
+  .cdb-numbers > div{ text-align:center; perspective:240px; }
   .cdb-num{
     font-family:'Cormorant Garamond', serif;
-    font-size:clamp(2.6rem, 7vw, 4.4rem);
-    font-weight:500; line-height:1;
-    color:var(--terracotta);
+    font-size:2.2rem; font-weight:500; color:var(--terracotta);
+    display:inline-block; line-height:1;
+    backface-visibility:hidden;
   }
-  .cdb-colon{
-    font-family:'Cormorant Garamond', serif;
-    font-size:clamp(2rem, 5vw, 3.2rem);
-    color:var(--gold);
-  }
-  .cdb-labels{
-    display:flex; justify-content:center; gap:clamp(24px, 6vw, 70px);
-    flex-wrap:wrap;
-  }
-  .cdb-labels span{
-    font-family:'Jost', sans-serif; font-weight:400;
-    font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase;
-    color:var(--ink-soft);
+  .cdb-num.flip{ animation:numFlip 0.6s ease; }
+  .cdb-lbl{
+    font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--ink-soft); margin-top:6px; display:block;
   }
   @media (max-width:600px){
     .cdb-title{ font-size:2rem; }
-    .cdb-numbers{ gap:10px; }
-    .cdb-labels{ gap:20px; }
+    .cdb-numbers{ gap:16px; }
   }
 
   footer{
@@ -1182,18 +1172,10 @@
   </div>
   <div class="cdb-row cdb-nums-row">
     <div class="wrap cdb-numbers">
-      <span class="cdb-num" id="cdb-days">--</span>
-      <span class="cdb-colon">:</span>
-      <span class="cdb-num" id="cdb-hours">--</span>
-      <span class="cdb-colon">:</span>
-      <span class="cdb-num" id="cdb-mins">--</span>
-      <span class="cdb-colon">:</span>
-      <span class="cdb-num" id="cdb-secs">--</span>
-    </div>
-  </div>
-  <div class="cdb-row cdb-labels-row">
-    <div class="wrap cdb-labels">
-      <span>Days</span><span>Hours</span><span>Minutes</span><span>Seconds</span>
+      <div><span class="cdb-num" id="cdb-days">--</span><span class="cdb-lbl">Days</span></div>
+      <div><span class="cdb-num" id="cdb-hours">--</span><span class="cdb-lbl">Hours</span></div>
+      <div><span class="cdb-num" id="cdb-mins">--</span><span class="cdb-lbl">Minutes</span></div>
+      <div><span class="cdb-num" id="cdb-secs">--</span><span class="cdb-lbl">Seconds</span></div>
     </div>
   </div>
 </section>
@@ -1243,7 +1225,16 @@
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // second countdown display for the bottom-of-page banner
+  // second countdown display for the bottom-of-page banner, same format/flip as the hero countdown
+  var cdbPrevValues = { days: null, hours: null, mins: null, secs: null };
+  function setCdbField(id, key, value){
+    var el = document.getElementById(id);
+    if (cdbPrevValues[key] === value) return;
+    cdbPrevValues[key] = value;
+    el.classList.add('flip');
+    setTimeout(function(){ el.textContent = value; }, 300);
+    setTimeout(function(){ el.classList.remove('flip'); }, 620);
+  }
   function updateCountdownBanner(){
     var now = new Date();
     var diff = weddingDate - now;
@@ -1252,11 +1243,10 @@
     var hours = Math.floor((diff / (1000*60*60)) % 24);
     var mins = Math.floor((diff / (1000*60)) % 60);
     var secs = Math.floor((diff / 1000) % 60);
-    var pad = function(n){ return n < 10 ? '0' + n : '' + n; };
-    document.getElementById('cdb-days').textContent = days;
-    document.getElementById('cdb-hours').textContent = pad(hours);
-    document.getElementById('cdb-mins').textContent = pad(mins);
-    document.getElementById('cdb-secs').textContent = pad(secs);
+    setCdbField('cdb-days', 'days', days);
+    setCdbField('cdb-hours', 'hours', hours);
+    setCdbField('cdb-mins', 'mins', mins);
+    setCdbField('cdb-secs', 'secs', secs);
   }
   updateCountdownBanner();
   setInterval(updateCountdownBanner, 1000);

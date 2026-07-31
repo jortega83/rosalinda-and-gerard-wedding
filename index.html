@@ -640,32 +640,6 @@
     .envelope-names{ font-size:2.1rem; }
   }
 
-  #music-toggle{
-    position:fixed; bottom:24px; right:24px; z-index:1500;
-    width:52px; height:52px; border-radius:50%;
-    background:var(--paper); border:1px solid var(--line);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.12);
-    opacity:0; pointer-events:none;
-    transition:opacity 0.4s ease, transform 0.2s ease;
-  }
-  #music-toggle.visible{ opacity:1; pointer-events:auto; }
-  #music-toggle:hover{ transform:scale(1.06); }
-  #music-toggle svg{
-    width:34px; height:34px;
-    display:block;
-  }
-  .vinyl-disc{
-    width:34px; height:34px;
-    transform-origin:50% 50%;
-    animation:vinylSpin 3.2s linear infinite;
-  }
-  #music-toggle.paused .vinyl-disc{ animation-play-state:paused; }
-  @keyframes vinylSpin{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
-  }
-
   /* COUNTDOWN TO I DO BANNER */
   #countdown-banner{ text-align:center; }
   .cdb-row{ padding:30px 24px; }
@@ -738,6 +712,25 @@
     display:block; font-family:'Cormorant Garamond', serif; font-weight:500;
     font-size:1.35rem; letter-spacing:0.03em; color:var(--ink);
     opacity:0.85;
+  }
+
+  /* MOBILE REFINEMENT PASS */
+  @media (max-width:600px){
+    section{ padding:76px 0; }
+    .hero{ padding:70px 20px; min-height:88vh; }
+    .countdown{ gap:16px; flex-wrap:wrap; margin-top:28px; }
+    .countdown .num{ font-size:1.7rem; }
+    .countdown .lbl{ font-size:0.56rem; }
+    .rsvp-box{ padding:38px 24px; }
+    .rsvp-box p{ font-size:1.02rem; margin-bottom:22px; }
+    .route-card{ padding:26px 20px; }
+    .route-embed{ height:200px; }
+    .route-card p{ font-size:0.86rem; }
+    .detail-card{ padding:30px 22px; }
+    .faq-item{ padding:20px 0; }
+    .faq-item p{ font-size:1rem; }
+    .section-sub{ margin-bottom:14px !important; }
+    section > .wrap > .section-sub{ margin-bottom:40px !important; }
   }
 </style>
 </head>
@@ -832,14 +825,18 @@
       <div class="order-item">
         <div class="order-icon">
           <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="24" cy="34" r="13"/>
-            <circle cx="40" cy="34" r="13"/>
+            <path d="M32 6 L32 15"/>
+            <path d="M27 9.5 L37 9.5"/>
+            <path d="M18 27 L32 15 L46 27"/>
+            <rect x="18" y="27" width="28" height="25"/>
+            <path d="M27 52 L27 40 C27 37 29.5 35 32 35 C34.5 35 37 37 37 40 L37 52"/>
+            <line x1="14" y1="52" x2="50" y2="52"/>
           </svg>
         </div>
         <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
         <div class="order-text">
           <span class="order-time">1:30 PM</span>
-          <span class="order-label">Mass &amp; Ceremony</span>
+          <span class="order-label">Wedding Mass &amp; Ceremony</span>
           <span class="order-venue">Corpus Christi Roman Catholic Church, 218 Washington Pl, Hasbrouck Heights, NJ 07604</span>
         </div>
       </div>
@@ -855,7 +852,26 @@
         <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
         <div class="order-text">
           <span class="order-time">2:30 PM</span>
-          <span class="order-label">Photos &amp; Well-Wishes Outside the Chapel</span>
+          <span class="order-label">Photos &amp; Well Wishes Outside the Chapel</span>
+        </div>
+      </div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 40 L16 30 C18 26 22 24 27 24 L38 24 C43 24 47 26 49 30 L53 40"/>
+            <rect x="10" y="40" width="45" height="9" rx="3"/>
+            <circle cx="20" cy="49" r="4.3"/>
+            <circle cx="45" cy="49" r="4.3"/>
+            <line x1="2" y1="30" x2="7" y2="30"/>
+            <line x1="1" y1="36" x2="6" y2="36"/>
+            <line x1="3" y1="42" x2="8" y2="42"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">3:00 PM</span>
+          <span class="order-label">Travel to Carro Cafe</span>
         </div>
       </div>
 
@@ -872,7 +888,7 @@
         <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
         <div class="order-text">
           <span class="order-time">4:00 PM</span>
-          <span class="order-label">Cocktail Hour, Open Bar &amp; Hors d'oeuvres</span>
+          <span class="order-label">Cocktail Hour with Open Bar &amp; Hors d'oeuvres</span>
           <span class="order-venue">Carro Cafe, 518 32nd St, Union City, NJ 07087</span>
         </div>
       </div>
@@ -887,7 +903,7 @@
         <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
         <div class="order-text">
           <span class="order-time">5:00 PM</span>
-          <span class="order-label">Dinner, Buffet Style</span>
+          <span class="order-label">Buffet-Style Dinner</span>
         </div>
       </div>
 
@@ -1226,18 +1242,6 @@
 <audio id="bg-music" loop preload="none">
   <source src="song.mp3" type="audio/mpeg">
 </audio>
-<div id="music-toggle" title="Toggle music">
-  <div class="vinyl-disc">
-    <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="26" cy="26" r="24" fill="#211f1a"/>
-      <circle cx="26" cy="26" r="19" fill="none" stroke="#39362f" stroke-width="1"/>
-      <circle cx="26" cy="26" r="15" fill="none" stroke="#39362f" stroke-width="1"/>
-      <circle cx="26" cy="26" r="11" fill="none" stroke="#39362f" stroke-width="1"/>
-      <circle cx="26" cy="26" r="7.5" fill="var(--terracotta)"/>
-      <circle cx="26" cy="26" r="2" fill="var(--paper)"/>
-    </svg>
-  </div>
-</div>
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");
   var cdPrevValues = { days: null, hours: null, mins: null, secs: null };
@@ -1331,7 +1335,6 @@
   var hint = document.getElementById('envelope-hint');
   var wrap = document.getElementById('envelope-wrap');
   var music = document.getElementById('bg-music');
-  var musicBtn = document.getElementById('music-toggle');
   var revealTimer, hintTimer;
 
   function revealSite(){
@@ -1397,7 +1400,6 @@
     startPetals();
     music.volume = 0.5;
     music.play().catch(function(){});
-    musicBtn.classList.add('visible');
     // verse card starts fading in first, so it's already opaque
     // by the time the envelope overlay finishes fading away
     setTimeout(function(){
@@ -1419,15 +1421,6 @@
   });
   verseOverlay.addEventListener('click', function(){
     if (verseOverlay.classList.contains('visible')) revealSite();
-  });
-  musicBtn.addEventListener('click', function(){
-    if (music.paused){
-      music.play().catch(function(){});
-      musicBtn.classList.remove('paused');
-    } else {
-      music.pause();
-      musicBtn.classList.add('paused');
-    }
   });
 
   // gently reveal each section as it scrolls into view

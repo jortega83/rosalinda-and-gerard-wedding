@@ -484,6 +484,10 @@
   .registry-links a:hover::before{ left:130%; }
 
   /* GUEST LIST */
+  .guest-hint{
+    text-align:center; font-size:0.85rem; color:var(--ink-soft);
+    font-style:italic; margin-top:-8px; margin-bottom:8px;
+  }
   .water-wave{
     position:relative;
     width:100%; max-width:600px; margin:10px auto 4px;
@@ -541,8 +545,22 @@
     animation:nameFloat 3.4s ease-in-out infinite, nameShimmer 7s ease-in-out infinite;
     transition:filter 0.2s ease;
     will-change:transform;
+    cursor:pointer;
+    position:relative;
   }
   .guest-name:hover{ filter:brightness(1.15); }
+  .guest-name.selected{
+    animation:none;
+    background-image:none;
+    color:var(--wine);
+    -webkit-text-fill-color:var(--wine);
+    font-weight:700;
+    transform:none;
+  }
+  .guest-name.selected::before{
+    content:'\2713  ';
+    color:var(--wine);
+  }
   .guest-col .guest-name:nth-child(6n+1){ animation-delay:0s, 0s; }
   .guest-col .guest-name:nth-child(6n+2){ animation-delay:0.3s, 1.2s; }
   .guest-col .guest-name:nth-child(6n+3){ animation-delay:0.6s, 2.4s; }
@@ -1170,6 +1188,7 @@
     </div>
     <h2 class="section-title">Guest List</h2>
     <div class="section-sub">Find your name below</div>
+    <p class="guest-hint">Tap your name to RSVP</p>
 
     <div class="guest-frame">
       <div class="guest-columns">
@@ -1474,6 +1493,16 @@
   });
   verseOverlay.addEventListener('click', function(){
     if (verseOverlay.classList.contains('visible')) revealSite();
+  });
+
+  // tap a name on the guest list to mark it and open the RSVP form
+  var guestNames = document.querySelectorAll('.guest-name');
+  guestNames.forEach(function(el){
+    el.addEventListener('click', function(){
+      guestNames.forEach(function(other){ other.classList.remove('selected'); });
+      el.classList.add('selected');
+      window.open('https://tally.so/r/44RNRY', '_blank');
+    });
   });
 
   // gently reveal each section as it scrolls into view

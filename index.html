@@ -137,10 +137,28 @@
     text-align:center;
     padding:100px 24px;
     position:relative;
+    overflow:hidden;
     background:
       radial-gradient(circle at 15% 15%, rgba(192,138,114,0.14), transparent 50%),
       radial-gradient(circle at 85% 85%, rgba(168,98,63,0.10), transparent 50%);
   }
+  .hero-monogram{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%, -50%);
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    font-size:min(60vw, 640px);
+    line-height:1;
+    color:var(--wine);
+    opacity:0.05;
+    letter-spacing:0.02em;
+    white-space:nowrap;
+    pointer-events:none;
+    z-index:0;
+    user-select:none;
+  }
+  .hero > *:not(.hero-monogram){ position:relative; z-index:1; }
   .hero .eyebrow{
     font-size:0.78rem; letter-spacing:0.42em; text-transform:uppercase;
     color:var(--gold); margin-bottom:34px; font-weight:400;
@@ -175,7 +193,18 @@
   .countdown .num{
     font-family:'Cormorant Garamond', serif;
     font-size:2.2rem; font-weight:500; color:var(--terracotta);
-    display:block; line-height:1;
+    display:inline-block; line-height:1;
+    backface-visibility:hidden;
+  }
+  .countdown div{ perspective:240px; }
+  .countdown .num.flip{
+    animation:numFlip 0.6s ease;
+  }
+  @keyframes numFlip{
+    0%   { transform:rotateX(0deg); }
+    49%  { transform:rotateX(-90deg); }
+    51%  { transform:rotateX(90deg); }
+    100% { transform:rotateX(0deg); }
   }
   .countdown .lbl{
     font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
@@ -189,13 +218,25 @@
     text-transform:uppercase; color:var(--ink);
     border-radius:999px;
     transition:background 0.2s ease, color 0.2s ease;
+    position:relative; overflow:hidden;
   }
   .cal-btn:hover{ background:var(--ink); color:#fff; }
+  .cal-btn::before, .rsvp-btn::before{
+    content:'';
+    position:absolute; top:0; left:-130%;
+    width:60%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform:skewX(-20deg);
+    transition:left 0.65s ease;
+    pointer-events:none;
+  }
+  .cal-btn:hover::before, .rsvp-btn:hover::before{ left:130%; }
 
   .sprig{
     display:block;
     margin:0 auto 20px;
     width:110px; height:auto;
+    will-change:transform;
   }
   .hero .sprig{
     width:190px;
@@ -211,7 +252,8 @@
     margin-right:auto;
   }
 
-  section{ padding:130px 0; border-bottom:1px solid var(--line); }
+  section{ padding:130px 0; border-bottom:1px solid var(--line); position:relative; }
+  section:nth-of-type(even){ background:rgba(255,250,247,0.55); }
   .reveal{
     opacity:0; transform:translateY(26px);
     transition:opacity 0.9s ease, transform 0.9s ease;
@@ -290,12 +332,21 @@
   }
   .detail-card p{ font-size:0.92rem; color:var(--ink-soft); line-height:1.6; }
   .detail-card a.btn-link{
-    display:inline-block; margin-top:16px;
+    display:inline-block; margin-top:16px; position:relative;
     font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
-    color:var(--terracotta); text-decoration:none; border-bottom:1px solid var(--terracotta);
+    color:var(--terracotta); text-decoration:none;
     padding-bottom:3px; transition:opacity 0.2s ease;
   }
-  .detail-card a.btn-link:hover{ opacity:0.65; }
+  .detail-card a.btn-link::after{
+    content:'';
+    position:absolute; left:0; bottom:0;
+    width:100%; height:1px;
+    background:var(--terracotta);
+    transform:scaleX(1); transform-origin:left;
+    transition:transform 0.3s ease;
+  }
+  .detail-card a.btn-link:hover{ opacity:0.85; }
+  .detail-card a.btn-link:hover::after{ transform:scaleX(0.3); }
 
   .map-embed{
     width:100%; height:220px; border:0; margin-top:18px;
@@ -314,6 +365,7 @@
     font-size:0.76rem; letter-spacing:0.22em; text-transform:uppercase;
     border-radius:999px;
     transition:background 0.25s ease, transform 0.2s ease;
+    position:relative; overflow:hidden;
   }
   .rsvp-btn:hover{ background:var(--terracotta); transform:translateY(-1px); }
 
@@ -351,8 +403,19 @@
     text-transform:uppercase; color:var(--ink);
     border-radius:999px;
     transition:background 0.2s ease, color 0.2s ease;
+    position:relative; overflow:hidden;
   }
   .registry-links a:hover{ background:var(--ink); color:#fff; }
+  .registry-links a::before{
+    content:'';
+    position:absolute; top:0; left:-130%;
+    width:60%; height:100%;
+    background:linear-gradient(115deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform:skewX(-20deg);
+    transition:left 0.65s ease;
+    pointer-events:none;
+  }
+  .registry-links a:hover::before{ left:130%; }
 
   /* FAQ */
   .faq{ max-width:660px; margin:0 auto; }
@@ -490,7 +553,14 @@
   #music-toggle.paused{ color:var(--ink-soft); }
 
   footer{
-    text-align:center; padding:60px 24px 40px;
+    text-align:center; padding:90px 24px 50px;
+    background:linear-gradient(180deg, transparent, rgba(90,28,52,0.04));
+    position:relative;
+  }
+  footer .divider{
+    width:1px; height:50px;
+    background:var(--line);
+    margin:0 auto 34px;
   }
   .verse-quote{
     margin-bottom:34px;
@@ -511,6 +581,11 @@
   footer .small{
     display:block; font-family:'Jost',sans-serif; font-size:0.68rem;
     letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-soft); margin-top:12px;
+  }
+  footer .thanks{
+    display:block; font-family:'Jost',sans-serif; font-weight:300;
+    font-size:0.82rem; letter-spacing:0.04em; color:var(--ink-soft);
+    margin-top:38px; opacity:0.75;
   }
 </style>
 </head>
@@ -569,6 +644,7 @@
 </nav>
 
 <header class="hero">
+  <div class="hero-monogram" id="hero-monogram" aria-hidden="true">R&amp;G</div>
   <div class="eyebrow">We're getting married</div>
   <h1>Rosalinda<span class="amp">&amp;</span>Gerard</h1>
   <div class="date">October 3, 2026</div>
@@ -786,12 +862,14 @@
 </section>
 
 <footer>
+  <div class="divider"></div>
   <div class="verse-quote">
     <p>We love because He first loved us.</p>
     <span>1 John 4:19</span>
   </div>
   <div class="names-sm">Rosalinda &amp; Gerard</div>
   <span class="small">October 3, 2026</span>
+  <span class="thanks">Thank you for being part of our story</span>
 </footer>
 
 <audio id="bg-music" loop preload="none">
@@ -800,6 +878,16 @@
 <div id="music-toggle" title="Toggle music">&#9835;</div>
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");
+  var cdPrevValues = { days: null, hours: null, mins: null, secs: null };
+  function setCountdownField(id, key, value){
+    var el = document.getElementById(id);
+    if (cdPrevValues[key] === value) return;
+    cdPrevValues[key] = value;
+    // flip the digit like an old departures board, only when the value actually changes
+    el.classList.add('flip');
+    setTimeout(function(){ el.textContent = value; }, 300);
+    setTimeout(function(){ el.classList.remove('flip'); }, 620);
+  }
   function updateCountdown(){
     var now = new Date();
     var diff = weddingDate - now;
@@ -808,10 +896,10 @@
     var hours = Math.floor((diff / (1000*60*60)) % 24);
     var mins = Math.floor((diff / (1000*60)) % 60);
     var secs = Math.floor((diff / 1000) % 60);
-    document.getElementById('cd-days').textContent = days;
-    document.getElementById('cd-hours').textContent = hours;
-    document.getElementById('cd-mins').textContent = mins;
-    document.getElementById('cd-secs').textContent = secs;
+    setCountdownField('cd-days', 'days', days);
+    setCountdownField('cd-hours', 'hours', hours);
+    setCountdownField('cd-mins', 'mins', mins);
+    setCountdownField('cd-secs', 'secs', secs);
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
@@ -971,6 +1059,33 @@
       el.classList.add('in-view');
     });
   }
+
+  // subtle parallax depth: hero monogram drifts slower than the page scroll,
+  // and each decorative sprig floats gently as it passes through the viewport
+  var heroMonogram = document.getElementById('hero-monogram');
+  var sprigEls = document.querySelectorAll('.sprig');
+  var parallaxTicking = false;
+  function updateParallax(){
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    if (heroMonogram){
+      heroMonogram.style.transform = 'translate(-50%, calc(-50% + ' + (scrollY * 0.25) + 'px))';
+    }
+    var viewportCenter = window.innerHeight / 2;
+    sprigEls.forEach(function(el){
+      var rect = el.getBoundingClientRect();
+      var elCenter = rect.top + rect.height / 2;
+      var offset = (viewportCenter - elCenter) * 0.06;
+      el.style.transform = 'translateY(' + offset + 'px)';
+    });
+    parallaxTicking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!parallaxTicking){
+      window.requestAnimationFrame(updateParallax);
+      parallaxTicking = true;
+    }
+  }, { passive:true });
+  updateParallax();
 </script>
 
 </body>

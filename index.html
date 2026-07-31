@@ -243,6 +243,7 @@
     margin-top:34px;
     margin-bottom:0;
   }
+  .leaf-flourish{ width:180px; }
   .hero .dove-icon{
     width:190px;
     height:auto;
@@ -294,19 +295,59 @@
     font-weight:300;
   }
 
-  /* SCHEDULE */
-  .schedule{ max-width:580px; margin:0 auto; }
-  .schedule-item{
-    display:flex; gap:32px; align-items:baseline;
-    padding:24px 0; border-bottom:1px solid var(--line);
+  /* ORDER OF EVENTS TIMELINE */
+  .order-timeline{
+    position:relative; max-width:680px; margin:0 auto;
+    padding-left:4px;
   }
-  .schedule-item:last-child{ border-bottom:none; }
-  .schedule-time{
+  .order-timeline::before{
+    content:'';
+    position:absolute;
+    left:44px; top:18px; bottom:18px;
+    width:2px;
+    background:var(--ink);
+    opacity:0.75;
+  }
+  .order-item{
+    display:flex; align-items:center; gap:32px;
+    position:relative;
+    padding:30px 0;
+  }
+  .order-icon{
+    width:78px; height:78px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .order-icon svg{ width:100%; height:100%; }
+  .order-dot{
+    position:absolute; left:44px; top:50%;
+    transform:translate(-50%, -50%);
+    width:20px; height:20px;
+    z-index:2;
+  }
+  .order-text{ display:flex; flex-direction:column; gap:5px; padding-left:8px; }
+  .order-time{
     font-family:'Cormorant Garamond', serif;
-    font-size:1.5rem; color:var(--terracotta); min-width:110px; font-weight:500;
+    font-size:1.3rem; color:var(--terracotta); font-weight:500;
+    letter-spacing:0.03em;
   }
-  .schedule-label{ font-size:1.4rem; font-weight:500; font-family:'Cormorant Garamond', serif; color:var(--ink); }
-  .schedule-label .venue{ display:block; font-size:1.05rem; color:var(--ink-soft); margin-top:6px; font-weight:300; font-family:'Jost', sans-serif; }
+  .order-label{
+    font-family:'Jost', sans-serif; font-weight:400;
+    font-size:1.24rem; color:var(--ink);
+  }
+  .order-venue{
+    font-family:'Jost', sans-serif; font-weight:300;
+    font-size:0.92rem; color:var(--ink-soft);
+    margin-top:2px;
+  }
+  @media (max-width:600px){
+    .order-timeline::before{ left:33px; }
+    .order-dot{ left:33px; width:15px; height:15px; }
+    .order-item{ gap:20px; padding:22px 0; }
+    .order-icon{ width:58px; height:58px; }
+    .order-time{ font-size:1.05rem; }
+    .order-label{ font-size:1.02rem; }
+    .order-venue{ font-size:0.82rem; }
+  }
 
   /* DETAILS GRID */
   .details-grid{
@@ -416,6 +457,42 @@
     pointer-events:none;
   }
   .registry-links a:hover::before{ left:130%; }
+
+  /* GUEST LIST */
+  .guest-frame{
+    position:relative;
+    max-width:760px; margin:44px auto 0;
+    border:2px solid var(--gold);
+    border-radius:140px 140px 18px 18px / 100px 100px 18px 18px;
+    padding:80px 44px 56px;
+    background:var(--paper);
+  }
+  .guest-frame::before{
+    content:'';
+    position:absolute;
+    top:26px; left:50%; transform:translateX(-50%);
+    width:60px; height:1px;
+    background:var(--gold);
+  }
+  .guest-columns{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px 40px;
+  }
+  .guest-col{ display:flex; flex-direction:column; }
+  .guest-name{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.08rem; letter-spacing:0.05em; text-transform:uppercase;
+    color:var(--ink); text-align:center;
+    padding:9px 0; border-bottom:1px solid var(--line);
+  }
+  .guest-col .guest-name:last-child{ border-bottom:none; }
+  @media (max-width:640px){
+    .guest-frame{
+      border-radius:80px 80px 14px 14px / 60px 60px 14px 14px;
+      padding:60px 22px 40px;
+    }
+    .guest-columns{ grid-template-columns:1fr; gap:0; }
+    .guest-name{ font-size:0.98rem; }
+  }
 
   /* FAQ */
   .faq{ max-width:660px; margin:0 auto; }
@@ -544,18 +621,72 @@
     background:var(--paper); border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.12);
-    font-size:1.3rem; color:var(--terracotta);
     opacity:0; pointer-events:none;
     transition:opacity 0.4s ease, transform 0.2s ease;
   }
   #music-toggle.visible{ opacity:1; pointer-events:auto; }
   #music-toggle:hover{ transform:scale(1.06); }
-  #music-toggle.paused{ color:var(--ink-soft); }
+  #music-toggle svg{
+    width:34px; height:34px;
+    animation:vinylSpin 3.2s linear infinite;
+  }
+  #music-toggle.paused svg{ animation-play-state:paused; }
+  @keyframes vinylSpin{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+  }
+
+  /* COUNTDOWN TO I DO BANNER */
+  #countdown-banner{ text-align:center; }
+  .cdb-row{ padding:30px 24px; }
+  .cdb-title-row{ background:var(--paper); }
+  .cdb-nums-row{ background:rgba(90,28,52,0.06); padding-top:24px; padding-bottom:24px; }
+  .cdb-labels-row{ background:var(--paper); }
+  .cdb-title{
+    font-family:'Alex Brush', cursive;
+    font-size:2.6rem;
+    color:var(--wine);
+  }
+  .cdb-numbers{
+    display:flex; justify-content:center; align-items:baseline; gap:18px;
+    flex-wrap:wrap;
+  }
+  .cdb-num{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(2.6rem, 7vw, 4.4rem);
+    font-weight:500; line-height:1;
+    color:var(--terracotta);
+  }
+  .cdb-colon{
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(2rem, 5vw, 3.2rem);
+    color:var(--gold);
+  }
+  .cdb-labels{
+    display:flex; justify-content:center; gap:clamp(24px, 6vw, 70px);
+    flex-wrap:wrap;
+  }
+  .cdb-labels span{
+    font-family:'Jost', sans-serif; font-weight:400;
+    font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  @media (max-width:600px){
+    .cdb-title{ font-size:2rem; }
+    .cdb-numbers{ gap:10px; }
+    .cdb-labels{ gap:20px; }
+  }
 
   footer{
-    text-align:center; padding:90px 24px 50px;
-    background:linear-gradient(180deg, transparent, rgba(90,28,52,0.04));
+    text-align:center; padding:24px;
     position:relative;
+  }
+  footer.footer-top{
+    padding-top:90px; padding-bottom:50px;
+    background:linear-gradient(180deg, transparent, rgba(90,28,52,0.04));
+  }
+  footer.footer-bottom{
+    padding-top:38px; padding-bottom:60px;
   }
   footer .divider{
     width:1px; height:50px;
@@ -563,7 +694,7 @@
     margin:0 auto 34px;
   }
   .verse-quote{
-    margin-bottom:34px;
+    margin-bottom:0;
   }
   .verse-quote p{
     font-family:'Cormorant Garamond', serif;
@@ -583,9 +714,9 @@
     letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-soft); margin-top:12px;
   }
   footer .thanks{
-    display:block; font-family:'Jost',sans-serif; font-weight:300;
-    font-size:0.82rem; letter-spacing:0.04em; color:var(--ink-soft);
-    margin-top:38px; opacity:0.75;
+    display:block; font-family:'Cormorant Garamond', serif; font-weight:500;
+    font-size:1.35rem; letter-spacing:0.03em; color:var(--ink);
+    opacity:0.85;
   }
 </style>
 </head>
@@ -638,6 +769,7 @@
       <li><a href="#guestbook">Guestbook</a></li>
       <li><a href="#registry">Registry</a></li>
       <li><a href="#games">Games</a></li>
+      <li><a href="#guestlist">Guest List</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
   </div>
@@ -673,16 +805,120 @@
       </g>
     </svg>
     <h2 class="section-title">Schedule</h2>
-    <div class="section-sub">The day of</div>
-    <div class="schedule">
-      <div class="schedule-item">
-        <div class="schedule-time">1:30 PM</div>
-        <div class="schedule-label">Ceremony<span class="venue">Corpus Christi Roman Catholic Church, 218 Washington Pl, Hasbrouck Heights, NJ 07604</span></div>
+    <div class="section-sub">Order of Events</div>
+    <div class="order-timeline">
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="24" cy="34" r="13"/>
+            <circle cx="40" cy="34" r="13"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">1:30 PM</span>
+          <span class="order-label">Mass &amp; Ceremony</span>
+          <span class="order-venue">Corpus Christi Roman Catholic Church, 218 Washington Pl, Hasbrouck Heights, NJ 07604</span>
+        </div>
       </div>
-      <div class="schedule-item">
-        <div class="schedule-time">5:00 PM</div>
-        <div class="schedule-label">Reception<span class="venue">Carro Cafe, 518 32nd St, Union City, NJ 07087</span></div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="10" y="22" width="44" height="30" rx="4"/>
+            <circle cx="32" cy="37" r="9"/>
+            <rect x="24" y="15" width="12" height="8" rx="2"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">2:30 PM</span>
+          <span class="order-label">Photos &amp; Well-Wishes Outside the Chapel</span>
+        </div>
       </div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 12 L26 30 L26 48 M26 30 L6 12"/>
+            <line x1="20" y1="48" x2="32" y2="48"/>
+            <path d="M48 14 L48 34 C48 40 44 44 40 44 C36 44 32 40 32 34 C32 26 40 22 40 14 Z"/>
+            <line x1="40" y1="44" x2="40" y2="52"/>
+            <line x1="34" y1="52" x2="46" y2="52"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">4:00 PM</span>
+          <span class="order-label">Cocktail Hour, Open Bar &amp; Hors d'oeuvres</span>
+          <span class="order-venue">Carro Cafe, 518 32nd St, Union City, NJ 07087</span>
+        </div>
+      </div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 10 L20 26 M16 10 L16 22 C16 25 18 26 20 26 M24 10 L24 22 C24 25 22 26 20 26 M20 26 L20 52"/>
+            <path d="M44 10 C38 10 38 20 44 24 C50 20 50 10 44 10 Z M44 24 L44 52"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">5:00 PM</span>
+          <span class="order-label">Dinner, Buffet Style</span>
+        </div>
+      </div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="18" y="8" width="16" height="48" rx="2"/>
+            <rect x="21" y="13" width="10" height="8"/>
+            <rect x="21" y="25" width="10" height="8"/>
+            <rect x="21" y="37" width="10" height="8"/>
+            <path d="M42 20 C42 20 50 24 50 32 C50 40 42 44 42 44"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">5:30 PM</span>
+          <span class="order-label">Photo Booth &amp; Audio-Video Guestbook</span>
+        </div>
+      </div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 34 C14 27 20 22 32 22 C44 22 50 27 50 34 L50 50 L14 50 Z"/>
+            <path d="M14 42 L50 42"/>
+            <path d="M28 22 C28 17 32 17 32 13 C32 17 36 17 36 22"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">9:30 PM</span>
+          <span class="order-label">Cake Cutting</span>
+        </div>
+      </div>
+
+      <div class="order-item">
+        <div class="order-icon">
+          <svg viewBox="0 0 64 64" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 42 L12 30 C14 26 18 24 24 24 L40 24 C46 24 50 26 52 30 L56 42"/>
+            <rect x="6" y="42" width="52" height="10" rx="3"/>
+            <circle cx="18" cy="52" r="5"/>
+            <circle cx="46" cy="52" r="5"/>
+            <path d="M60 46 L64 44 M60 50 L64 52"/>
+          </svg>
+        </div>
+        <svg class="order-dot" viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.3 8.4 2 4.8 5.5 4.2c2-.3 3.9.7 4.9 2.4C11.4 4.9 13.3 3.9 15.3 4.2c3.5.6 5.2 4.2 3.5 7.5C16.3 16.4 12 21 12 21z" fill="var(--wine)"/></svg>
+        <div class="order-text">
+          <span class="order-time">10:00 PM</span>
+          <span class="order-label">Wedding Send-Off</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -828,7 +1064,7 @@
   </div>
 </section>
 
-<section id="faq">
+<section id="guestlist">
   <div class="wrap reveal">
     <svg class="sprig" viewBox="0 0 200 50" xmlns="http://www.w3.org/2000/svg">
       <path d="M20,25 Q100,10 180,25" stroke="var(--sage)" stroke-width="1" fill="none" opacity="0.5"/>
@@ -842,6 +1078,73 @@
         <ellipse cx="165" cy="21" rx="6" ry="2.6" transform="rotate(35 165 21)"/>
       </g>
     </svg>
+    <h2 class="section-title">Guest List</h2>
+    <div class="section-sub">Find your name below</div>
+
+    <div class="guest-frame">
+      <div class="guest-columns">
+        <div class="guest-col">
+          <span class="guest-name">Norka Ramos</span>
+          <span class="guest-name">Robert Ramos</span>
+          <span class="guest-name">Robert A. Ramos &amp; Guest</span>
+          <span class="guest-name">Johanna Ortega</span>
+          <span class="guest-name">Julian Ortega</span>
+          <span class="guest-name">Julian N. Ortega</span>
+          <span class="guest-name">Justin Ortega</span>
+          <span class="guest-name">Norka Torres</span>
+          <span class="guest-name">Victor Torres</span>
+          <span class="guest-name">Leila Torres</span>
+          <span class="guest-name">Chloe Torres</span>
+          <span class="guest-name">Victor E. Torres</span>
+          <span class="guest-name">Ida Nicolas</span>
+          <span class="guest-name">Francisco Nicolas</span>
+          <span class="guest-name">Diane Nicolas</span>
+          <span class="guest-name">Bryan Vuong</span>
+          <span class="guest-name">Nicole Nicolas</span>
+          <span class="guest-name">Dave Capala</span>
+          <span class="guest-name">Myra Beckmeyer</span>
+          <span class="guest-name">Vincent Dellavolla</span>
+          <span class="guest-name">Jessica Dennerlein</span>
+        </div>
+        <div class="guest-col">
+          <span class="guest-name">Eli Nicolas &amp; Guest</span>
+          <span class="guest-name">Eric Abrew</span>
+          <span class="guest-name">Lisa Abrew</span>
+          <span class="guest-name">Carol Espiritu</span>
+          <span class="guest-name">Al Espiritu</span>
+          <span class="guest-name">Allan Espiritu &amp; Guest</span>
+          <span class="guest-name">Ailene Wright</span>
+          <span class="guest-name">Vinscenzo Wright</span>
+          <span class="guest-name">Alex Montalbo</span>
+          <span class="guest-name">Grace Montalbo</span>
+          <span class="guest-name">Monalie Arico</span>
+          <span class="guest-name">Elaine Claros</span>
+          <span class="guest-name">Danny Claros</span>
+          <span class="guest-name">Luz Soria</span>
+          <span class="guest-name">Alex Soria</span>
+          <span class="guest-name">Fe Cerezo</span>
+          <span class="guest-name">Jojo Cerezo</span>
+          <span class="guest-name">Josie Estrada</span>
+          <span class="guest-name">Lynette Exconde</span>
+          <span class="guest-name">Nathalie Pisco &amp; Guest</span>
+          <span class="guest-name">Jorge Diaz</span>
+          <span class="guest-name">Justin Jackson</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap reveal">
+    <svg class="sprig leaf-flourish" viewBox="0 0 220 50" xmlns="http://www.w3.org/2000/svg">
+      <path d="M20,25 C20,15 30,10 38,15 C46,20 42,28 34,26 C28,24.5 30,18 36,19" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      <path d="M40,25 L92,25" stroke="var(--gold)" stroke-width="1" fill="none"/>
+      <path d="M110,25 C110,10 100,8 96,20 C100,26 108,26 110,25 Z" fill="var(--gold)" opacity="0.85"/>
+      <path d="M110,25 C110,10 120,8 124,20 C120,26 112,26 110,25 Z" fill="var(--gold)" opacity="0.85"/>
+      <path d="M128,25 L180,25" stroke="var(--gold)" stroke-width="1" fill="none"/>
+      <path d="M200,25 C200,15 190,10 182,15 C174,20 178,28 186,26 C192,24.5 190,18 184,19" stroke="var(--gold)" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </svg>
     <h2 class="section-title">FAQ</h2>
     <div class="section-sub">Everything else</div>
     <div class="faq">
@@ -854,28 +1157,64 @@
         <p>The dress code is formal attire.</p>
       </div>
       <div class="faq-item">
+        <h4>Will there be parking?</h4>
+        <p>Yes, both venues have parking available on-site.</p>
+      </div>
+      <div class="faq-item">
         <h4>Can I bring a plus-one?</h4>
-        <p>To keep our celebration intimate, we're only able to accommodate the guests named on your invitation. Please check your invite for who's included.</p>
+        <p>To keep our celebration intimate, we're only able to accommodate the guests named on your invitation. Please check our Guest List page to confirm who's included.</p>
       </div>
     </div>
   </div>
 </section>
 
-<footer>
+<footer class="footer-top">
   <div class="divider"></div>
   <div class="verse-quote">
     <p>We love because He first loved us.</p>
     <span>1 John 4:19</span>
   </div>
-  <div class="names-sm">Rosalinda &amp; Gerard</div>
-  <span class="small">October 3, 2026</span>
+</footer>
+
+<section id="countdown-banner">
+  <div class="cdb-row cdb-title-row">
+    <div class="wrap"><span class="cdb-title">Countdown to &ldquo;I do&rdquo;</span></div>
+  </div>
+  <div class="cdb-row cdb-nums-row">
+    <div class="wrap cdb-numbers">
+      <span class="cdb-num" id="cdb-days">--</span>
+      <span class="cdb-colon">:</span>
+      <span class="cdb-num" id="cdb-hours">--</span>
+      <span class="cdb-colon">:</span>
+      <span class="cdb-num" id="cdb-mins">--</span>
+      <span class="cdb-colon">:</span>
+      <span class="cdb-num" id="cdb-secs">--</span>
+    </div>
+  </div>
+  <div class="cdb-row cdb-labels-row">
+    <div class="wrap cdb-labels">
+      <span>Days</span><span>Hours</span><span>Minutes</span><span>Seconds</span>
+    </div>
+  </div>
+</section>
+
+<footer class="footer-bottom">
   <span class="thanks">Thank you for being part of our story</span>
 </footer>
 
 <audio id="bg-music" loop preload="none">
   <source src="song.mp3" type="audio/mpeg">
 </audio>
-<div id="music-toggle" title="Toggle music">&#9835;</div>
+<div id="music-toggle" title="Toggle music">
+  <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="26" cy="26" r="24" fill="#211f1a"/>
+    <circle cx="26" cy="26" r="19" fill="none" stroke="#39362f" stroke-width="1"/>
+    <circle cx="26" cy="26" r="15" fill="none" stroke="#39362f" stroke-width="1"/>
+    <circle cx="26" cy="26" r="11" fill="none" stroke="#39362f" stroke-width="1"/>
+    <circle cx="26" cy="26" r="7.5" fill="var(--terracotta)"/>
+    <circle cx="26" cy="26" r="2" fill="var(--paper)"/>
+  </svg>
+</div>
 <script>
   var weddingDate = new Date("October 3, 2026 13:30:00 GMT-0400");
   var cdPrevValues = { days: null, hours: null, mins: null, secs: null };
@@ -903,6 +1242,24 @@
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+
+  // second countdown display for the bottom-of-page banner
+  function updateCountdownBanner(){
+    var now = new Date();
+    var diff = weddingDate - now;
+    if (diff < 0) diff = 0;
+    var days = Math.floor(diff / (1000*60*60*24));
+    var hours = Math.floor((diff / (1000*60*60)) % 24);
+    var mins = Math.floor((diff / (1000*60)) % 60);
+    var secs = Math.floor((diff / 1000) % 60);
+    var pad = function(n){ return n < 10 ? '0' + n : '' + n; };
+    document.getElementById('cdb-days').textContent = days;
+    document.getElementById('cdb-hours').textContent = pad(hours);
+    document.getElementById('cdb-mins').textContent = pad(mins);
+    document.getElementById('cdb-secs').textContent = pad(secs);
+  }
+  updateCountdownBanner();
+  setInterval(updateCountdownBanner, 1000);
 
   // universal "Add to Calendar" - builds a real .ics file so it opens in the
   // native Calendar app on iPhone, and in Google Calendar (or default) on Android

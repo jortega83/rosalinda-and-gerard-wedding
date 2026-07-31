@@ -372,13 +372,13 @@
     font-weight:500;
   }
   .detail-card p{ font-size:0.92rem; color:var(--ink-soft); line-height:1.6; }
-  .detail-card a.btn-link{
+  .detail-card a.btn-link, .route-card a.btn-link{
     display:inline-block; margin-top:16px; position:relative;
     font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
     color:var(--terracotta); text-decoration:none;
     padding-bottom:3px; transition:opacity 0.2s ease;
   }
-  .detail-card a.btn-link::after{
+  .detail-card a.btn-link::after, .route-card a.btn-link::after{
     content:'';
     position:absolute; left:0; bottom:0;
     width:100%; height:1px;
@@ -386,12 +386,37 @@
     transform:scaleX(1); transform-origin:left;
     transition:transform 0.3s ease;
   }
-  .detail-card a.btn-link:hover{ opacity:0.85; }
-  .detail-card a.btn-link:hover::after{ transform:scaleX(0.3); }
+  .detail-card a.btn-link:hover, .route-card a.btn-link:hover{ opacity:0.85; }
+  .detail-card a.btn-link:hover::after, .route-card a.btn-link:hover::after{ transform:scaleX(0.3); }
 
   .map-embed{
     width:100%; height:220px; border:0; margin-top:18px;
     filter:grayscale(15%);
+    transition:filter 0.3s ease, box-shadow 0.3s ease;
+  }
+  .detail-card:hover .map-embed{
+    filter:grayscale(0%);
+    box-shadow:0 8px 22px rgba(33,31,26,0.14);
+  }
+
+  .route-card{
+    max-width:780px; margin:0 auto 34px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    padding:38px 30px; text-align:center;
+  }
+  .route-card h3{
+    font-size:1.55rem; margin-bottom:6px; color:var(--ink); font-weight:500;
+  }
+  .route-card p{ font-size:0.92rem; color:var(--ink-soft); margin-bottom:16px; }
+  .route-embed{
+    width:100%; height:280px; border:0; margin-top:18px;
+    filter:grayscale(15%);
+    transition:filter 0.3s ease, box-shadow 0.3s ease;
+  }
+  .route-card:hover .route-embed{
+    filter:grayscale(0%);
+    box-shadow:0 8px 22px rgba(33,31,26,0.14);
   }
 
   /* RSVP */
@@ -935,6 +960,14 @@
     </svg>
     <h2 class="section-title">Details</h2>
     <div class="section-sub">Good to know</div>
+
+    <div class="route-card">
+      <h3>Getting from Ceremony to Reception</h3>
+      <p>About a 15-minute drive from Corpus Christi to Carro Cafe. Tap the map to explore or get live directions.</p>
+      <a class="btn-link" href="https://www.google.com/maps/dir/?api=1&origin=218+Washington+Pl,+Hasbrouck+Heights,+NJ+07604&destination=518+32nd+St,+Union+City,+NJ+07087" target="_blank">Get Directions</a>
+      <iframe class="route-embed" loading="lazy" src="https://www.google.com/maps?saddr=218+Washington+Pl,+Hasbrouck+Heights,+NJ+07604&daddr=518+32nd+St,+Union+City,+NJ+07087&output=embed"></iframe>
+    </div>
+
     <div class="details-grid">
       <div class="detail-card">
         <h3>Ceremony at Corpus Christi Roman Catholic Church</h3>

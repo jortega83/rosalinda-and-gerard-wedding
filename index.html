@@ -481,6 +481,16 @@
     will-change:transform;
   }
   .route-card p{ font-size:0.92rem; color:var(--ink-soft); margin-bottom:16px; }
+  #weather-body{ display:flex; align-items:center; gap:16px; }
+  #weather-body p{ margin:0; }
+  .weather-icon{ width:44px; height:44px; flex-shrink:0; }
+  .weather-temps{
+    font-family:'Cormorant Garamond', serif; font-size:1.7rem;
+    color:var(--terracotta); font-weight:500; line-height:1;
+  }
+  .weather-temps span{ color:var(--ink-soft); font-size:1.1rem; }
+  .weather-cond{ font-size:0.92rem; color:var(--ink-soft); margin-top:2px; }
+  .weather-note{ font-size:0.76rem; color:var(--ink-soft); opacity:0.75; margin-top:10px; }
   .route-embed{
     width:100%; height:280px; border:0; margin-top:18px;
     filter:grayscale(15%);
@@ -789,14 +799,33 @@
   .env-seal{
     position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
     width:86px; height:86px; border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #f3ead9, #e4d5b8 60%, #cdb98e 100%);
     color:var(--wine);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Alex Brush', cursive; font-size:2rem; font-weight:400;
-    z-index:4; box-shadow:0 3px 8px rgba(40,10,20,0.35), inset 0 1px 2px rgba(255,255,255,0.6);
-    transition:opacity 0.4s ease, transform 0.4s ease;
+    z-index:4;
   }
-  .envelope.open .env-seal{ opacity:0; transform:translate(-50%,-50%) scale(0.7); }
+  .seal-half{
+    position:absolute; inset:0; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #f3ead9, #e4d5b8 60%, #cdb98e 100%);
+    box-shadow:0 3px 8px rgba(40,10,20,0.35), inset 0 1px 2px rgba(255,255,255,0.6);
+    transition:transform 0.65s cubic-bezier(.3,.6,.4,1), opacity 0.65s ease;
+  }
+  .seal-left{ clip-path:inset(0 50% 0 0); transform-origin:left center; }
+  .seal-right{ clip-path:inset(0 0 0 50%); transform-origin:right center; }
+  .seal-crack{
+    position:absolute; top:6%; left:50%; width:1px; height:88%;
+    background:rgba(90,28,52,0.4);
+    transform:translateX(-50%) rotate(4deg);
+    opacity:0; transition:opacity 0.2s ease;
+  }
+  .seal-text{
+    position:relative; z-index:2;
+    font-family:'Alex Brush', cursive; font-size:2rem; font-weight:400;
+    transition:opacity 0.3s ease 0.05s;
+  }
+  .envelope.open .seal-crack{ opacity:1; transition:opacity 0.15s ease; }
+  .envelope.open .seal-left{ transform:translateX(-16px) translateY(2px) rotate(-22deg); opacity:0; }
+  .envelope.open .seal-right{ transform:translateX(16px) translateY(-2px) rotate(22deg); opacity:0; }
+  .envelope.open .seal-text{ opacity:0; transition:opacity 0.2s ease; }
   .envelope.open .env-letter{
     transform:rotate(-2deg) translateY(-160%);
     box-shadow:0 14px 30px rgba(0,0,0,0.16);
@@ -887,6 +916,18 @@
     opacity:0.85;
   }
 
+  #cursor-trail{
+    position:fixed; top:0; left:0;
+    width:22px; height:22px;
+    margin-left:-11px; margin-top:-11px;
+    pointer-events:none; z-index:9997;
+    opacity:0;
+    transition:opacity 0.4s ease;
+    will-change:transform;
+  }
+  #cursor-trail.visible{ opacity:1; }
+  #cursor-trail svg{ width:100%; height:100%; }
+
   #back-to-top{
     position:fixed; bottom:24px; right:24px; z-index:1500;
     width:48px; height:48px; border-radius:50%;
@@ -950,7 +991,12 @@
         <div class="lm">R &amp; G</div>
         <div class="ls">You're Invited</div>
       </div>
-      <div class="env-seal">R&amp;G</div>
+      <div class="env-seal">
+        <div class="seal-half seal-left"></div>
+        <div class="seal-half seal-right"></div>
+        <div class="seal-crack"></div>
+        <span class="seal-text">R&amp;G</span>
+      </div>
     </div>
     <div class="envelope-hint" id="envelope-hint">Tap to Open</div>
   </div>
@@ -1217,6 +1263,12 @@
         <h3>Parking</h3>
         <p>Free on-site parking is available at the venue for all guests. Street parking near Carro Cafe in Union City can be tight, so consider giving yourself a few extra minutes, carpooling, or using rideshare for the reception.</p>
       </div>
+      <div class="detail-card" id="weather-card">
+        <h3>Weather Forecast</h3>
+        <div id="weather-body">
+          <p>Checking the forecast for the big day...</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -1452,6 +1504,19 @@
   <span class="thanks">Thank you for being part of our story</span>
 </footer>
 
+<div id="cursor-trail" aria-hidden="true">
+  <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+    <g fill="var(--terracotta)" opacity="0.75">
+      <ellipse cx="20" cy="12" rx="5.5" ry="8" transform="rotate(0 20 20)"/>
+      <ellipse cx="20" cy="12" rx="5.5" ry="8" transform="rotate(72 20 20)"/>
+      <ellipse cx="20" cy="12" rx="5.5" ry="8" transform="rotate(144 20 20)"/>
+      <ellipse cx="20" cy="12" rx="5.5" ry="8" transform="rotate(216 20 20)"/>
+      <ellipse cx="20" cy="12" rx="5.5" ry="8" transform="rotate(288 20 20)"/>
+    </g>
+    <circle cx="20" cy="20" r="3.5" fill="var(--gold)"/>
+  </svg>
+</div>
+
 <div id="back-to-top" title="Back to top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M12 19V5"/>
@@ -1515,6 +1580,67 @@
   }
   updateCountdownBanner();
   setInterval(updateCountdownBanner, 1000);
+
+  // live weather forecast for the wedding day, falls back gracefully if
+  // the date is too far out for a forecast yet
+  function weatherIconInfo(code){
+    var sun = '<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13" fill="var(--gold)"/><g stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round"><path d="M32 4 L32 12 M32 52 L32 60 M4 32 L12 32 M52 32 L60 32 M11 11 L17 17 M47 47 L53 53 M53 11 L47 17 M17 47 L11 53"/></g></svg>';
+    var cloudPath = 'M50,42 L18,42 C10,42 4,36 4,29 C4,22 9,16 16,15 C18,7 25,1 34,1 C44,1 52,8 54,18 C60,19 64,24 64,30 C64,37 58,42 51,42 Z';
+    var cloud = '<svg viewBox="0 0 64 64"><path d="' + cloudPath + '" fill="var(--ink-soft)" opacity="0.55"/></svg>';
+    var rain = '<svg viewBox="0 0 64 70"><path d="' + cloudPath + '" fill="var(--ink-soft)" opacity="0.6"/><g stroke="var(--terracotta)" stroke-width="2.2" stroke-linecap="round"><path d="M20 48 L16 62 M34 48 L30 62 M48 48 L44 62"/></g></svg>';
+    var snow = '<svg viewBox="0 0 64 70"><path d="' + cloudPath + '" fill="var(--ink-soft)" opacity="0.6"/><g fill="var(--ink-soft)"><circle cx="20" cy="54" r="2.2"/><circle cx="34" cy="58" r="2.2"/><circle cx="48" cy="54" r="2.2"/></g></svg>';
+    var storm = '<svg viewBox="0 0 64 70"><path d="' + cloudPath + '" fill="var(--ink-soft)" opacity="0.6"/><path d="M36 44 L26 58 L34 58 L28 70 L44 52 L36 52 Z" fill="var(--terracotta)"/></svg>';
+    if (code === 0) return { icon: sun, label: 'Clear sky' };
+    if (code <= 3) return { icon: cloud, label: 'Partly cloudy' };
+    if (code === 45 || code === 48) return { icon: cloud, label: 'Foggy' };
+    if (code >= 51 && code <= 67) return { icon: rain, label: 'Rain likely' };
+    if (code >= 71 && code <= 77) return { icon: snow, label: 'Snow possible' };
+    if (code >= 80 && code <= 82) return { icon: rain, label: 'Showers' };
+    if (code >= 95) return { icon: storm, label: 'Thunderstorms possible' };
+    return { icon: cloud, label: 'Mixed conditions' };
+  }
+  function showWeatherFallback(){
+    var body = document.getElementById('weather-body');
+    if (!body) return;
+    var info = weatherIconInfo(1);
+    body.innerHTML =
+      '<div class="weather-icon">' + info.icon + '</div>' +
+      '<div>' +
+        '<div class="weather-temps">~68&deg; <span>/ ~50&deg;</span></div>' +
+        '<div class="weather-cond">Typically mild in early October</div>' +
+      '</div>';
+    var note = document.createElement('div');
+    note.className = 'weather-note';
+    note.textContent = "Live forecast isn't available yet, check back closer to October 3rd.";
+    body.parentNode.appendChild(note);
+  }
+  function loadWeather(){
+    var body = document.getElementById('weather-body');
+    if (!body) return;
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=40.8551&longitude=-74.0432&daily=temperature_2m_max,temperature_2m_min,weathercode&temperature_unit=fahrenheit&timezone=America%2FNew_York&start_date=2026-10-03&end_date=2026-10-03';
+    fetch(url).then(function(res){ return res.json(); }).then(function(data){
+      if (data && data.daily && data.daily.time && data.daily.time.length && data.daily.temperature_2m_max[0] != null){
+        var hi = Math.round(data.daily.temperature_2m_max[0]);
+        var lo = Math.round(data.daily.temperature_2m_min[0]);
+        var info = weatherIconInfo(data.daily.weathercode[0]);
+        body.innerHTML =
+          '<div class="weather-icon">' + info.icon + '</div>' +
+          '<div>' +
+            '<div class="weather-temps">' + hi + '&deg; <span>/ ' + lo + '&deg;</span></div>' +
+            '<div class="weather-cond">' + info.label + '</div>' +
+          '</div>';
+        var note = document.createElement('div');
+        note.className = 'weather-note';
+        note.textContent = 'Live forecast, updates automatically as the date gets closer.';
+        body.parentNode.appendChild(note);
+      } else {
+        showWeatherFallback();
+      }
+    }).catch(function(){
+      showWeatherFallback();
+    });
+  }
+  loadWeather();
 
   // universal "Add to Calendar" - builds a real .ics file so it opens in the
   // native Calendar app on iPhone, and in Google Calendar (or default) on Android
@@ -1652,6 +1778,34 @@
       window.open('https://tally.so/r/44RNRY', '_blank');
     });
   });
+
+  // subtle flower cursor trail, desktop with a real mouse only
+  var cursorTrail = document.getElementById('cursor-trail');
+  if (cursorTrail && window.matchMedia && window.matchMedia('(pointer: fine)').matches){
+    var ctTargetX = 0, ctTargetY = 0, ctX = 0, ctY = 0, ctStarted = false;
+    document.addEventListener('mousemove', function(e){
+      ctTargetX = e.clientX;
+      ctTargetY = e.clientY;
+      if (!ctStarted){
+        ctStarted = true;
+        ctX = ctTargetX; ctY = ctTargetY;
+        cursorTrail.classList.add('visible');
+      }
+    });
+    function ctLoop(){
+      ctX += (ctTargetX - ctX) * 0.16;
+      ctY += (ctTargetY - ctY) * 0.16;
+      cursorTrail.style.transform = 'translate(' + ctX + 'px,' + ctY + 'px) rotate(' + (ctX * 0.15) + 'deg)';
+      requestAnimationFrame(ctLoop);
+    }
+    requestAnimationFrame(ctLoop);
+    document.addEventListener('mouseleave', function(){
+      cursorTrail.classList.remove('visible');
+    });
+    document.addEventListener('mouseenter', function(){
+      if (ctStarted) cursorTrail.classList.add('visible');
+    });
+  }
 
   // back-to-top button: appears after scrolling down a bit
   var backToTop = document.getElementById('back-to-top');
